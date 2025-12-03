@@ -1,5 +1,5 @@
 package vn.iotstar.beautyshop.dao.impl;
 
-public interface CategoryDAOImpl {
+public class CategoryDAOImpl {
 
 }

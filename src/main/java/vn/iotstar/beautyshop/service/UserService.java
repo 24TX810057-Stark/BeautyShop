@@ -1,5 +1,12 @@
 package vn.iotstar.beautyshop.service;
 
-public class UserService {
+import vn.iotstar.beautyshop.model.User;
 
+public interface UserService {
+    User login(String identifier, String password);
+
+	boolean register(User user);
+    
 }
+
+

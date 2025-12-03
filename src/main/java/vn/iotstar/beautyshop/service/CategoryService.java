@@ -1,5 +1,5 @@
 package vn.iotstar.beautyshop.service;
 
-public class CategoryService {
+public interface CategoryService {
 
 }
