@@ -9,15 +9,22 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 
-	<properties>
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
+<!--	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+	</properties>-->
 
 	<dependencies>
 
-		<!-- Jakarta Servlet API (Tomcat 10.x) -->
+		<!-- Sitemesh -->
+		<dependency>
+			<groupId>org.sitemesh</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+		<!-- Servlet -->
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
@@ -25,7 +32,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Jakarta JSP API (bắt buộc để dùng JSP) -->
+		<!-- JSP -->
 		<dependency>
 			<groupId>jakarta.servlet.jsp</groupId>
 			<artifactId>jakarta.servlet.jsp-api</artifactId>
@@ -33,30 +40,28 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- JSP + JSTL (Jakarta) -->
+		<!-- JSTL -->
 		<dependency>
 			<groupId>jakarta.servlet.jsp.jstl</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
 			<version>3.0.0</version>
+			<!--<scope>provided</scope>-->
 		</dependency>
+
 		<dependency>
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
 			<version>3.0.1</version>
 		</dependency>
 
-		<!-- JDBC SQL Server -->
+		<!-- SQL Server -->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<version>12.8.1.jre11</version>
 		</dependency>
-		<dependency>
-			<groupId>vn.iotstart</groupId>
-			<artifactId>Vidu10</artifactId>
-			<version>1.0</version>
-		</dependency>
 
+		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -65,5 +70,29 @@
 		</dependency>
 
 	</dependencies>
+
+	<build>
+		<finalName>BeautyShop</finalName>
+
+		<plugins>
+
+			<!-- Compiler -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.14.0</version>
+				<configuration>
+					<source>24</source>
+					<target>24</target>
+				</configuration>
+			</plugin>
+
+			<!-- WAR -->
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.4.0</version>
+			</plugin>
+
+		</plugins>
+	</build>
 
 </project>
