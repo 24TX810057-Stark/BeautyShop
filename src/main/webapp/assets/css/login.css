@@ -1,0 +1,55 @@
+@charset "UTF-8";
+body {
+	background-color: #fce4ec;
+}
+
+.login-wrapper {
+	min-height: auto;
+	padding: 40px 0;
+}
+
+.login-box {
+	max-width: 650px;
+	width: 100%;
+	border-radius: 12px;
+}
+
+.login-logo img {
+	max-height: 60px;
+}
+
+.btn-login-main {
+	background: linear-gradient(90deg, #ff4b7d, #ff2e93);
+	border: none;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+}
+
+.btn-login-main:hover {
+	opacity: 0.9;
+}
+
+.login-subtitle {
+	font-size: 14px;
+	color: #555;
+}
+
+.recaptcha-text {
+	font-size: 12px;
+	color: #888;
+}
+
+.login-footer-link a {
+	font-size: 14px;
+	text-decoration: none;
+}
+
+.login-footer-link a:hover {
+	text-decoration: underline;
+}
+
+.divider-line {
+	height: 1px;
+	background-color: #eee;
+	margin: 16px 0 8px 0;
+}

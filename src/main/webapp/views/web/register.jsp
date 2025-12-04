@@ -10,6 +10,10 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+	
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/base.css">
+
 </head>
 <body
 	style="background: linear-gradient(180deg, #ffd6e7, #ffeaf2, #ffffff);">
@@ -83,7 +87,7 @@
 	</div>
 
 	<jsp:include page="/common/footer.jsp" />
-	
+
 	<!-- Bootstrap JS -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

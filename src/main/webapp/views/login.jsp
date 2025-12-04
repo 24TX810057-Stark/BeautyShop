@@ -7,65 +7,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Đăng nhập tài khoản</title>
+
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-body {
-	background-color: #fce4ec;
-}
 
-.login-wrapper {
-	min-height: 100vh;
-}
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/login.css">
+	
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/base.css">
 
-.login-box {
-	max-width: 650px;
-	width: 100%;
-	border-radius: 12px;
-}
 
-.login-logo img {
-	max-height: 60px;
-}
-
-.btn-login-main {
-	background: linear-gradient(90deg, #ff4b7d, #ff2e93);
-	border: none;
-	font-weight: 600;
-	letter-spacing: 0.5px;
-}
-
-.btn-login-main:hover {
-	opacity: 0.9;
-}
-
-.login-subtitle {
-	font-size: 14px;
-	color: #555;
-}
-
-.recaptcha-text {
-	font-size: 12px;
-	color: #888;
-}
-
-.login-footer-link a {
-	font-size: 14px;
-	text-decoration: none;
-}
-
-.login-footer-link a:hover {
-	text-decoration: underline;
-}
-
-.divider-line {
-	height: 1px;
-	background-color: #eee;
-	margin: 16px 0 8px 0;
-}
-</style>
 </head>
 <body>
 

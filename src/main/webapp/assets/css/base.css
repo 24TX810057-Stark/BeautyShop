@@ -1,0 +1,130 @@
+@charset "UTF-8";
+
+/* ================== GLOBAL ================== */
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #333;
+    background-color: #fff;
+}
+
+/* Link chung trong site */
+a {
+    color: #ff4b7d;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #e3386a;
+    text-decoration: underline;
+}
+
+/* Section spacing */
+.section-padding {
+    padding: 32px 0;
+}
+
+/* Heading chung */
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+/* Button primary giống kiểu sale/hồng */
+.btn-main {
+    background: linear-gradient(90deg, #ff4b7d, #ff2e93);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 999px;
+}
+
+.btn-main:hover {
+    opacity: 0.9;
+    color: #fff;
+}
+
+/* ================== HEADER (nếu sau này m làm) ================== */
+
+.main-header {
+    border-bottom: 1px solid #f2f2f2;
+    background-color: #fff;
+}
+
+.main-header .nav-link {
+    color: #333;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 10px 14px;
+}
+
+.main-header .nav-link:hover,
+.main-header .nav-link.active {
+    color: #ff4b7d;
+}
+
+/* ================== FOOTER ================== */
+
+footer {
+    font-size: 13px;
+    color: #333;
+}
+
+footer h6 {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+footer .footer-link {
+    color: #555 !important;
+    text-decoration: none;
+}
+
+footer .footer-link:hover {
+    color: #ff2e93 !important;
+    text-decoration: underline;
+}
+
+footer img {
+    display: block;
+}
+
+/* Icon box trong footer (giao hàng miễn phí, gói quà, vv.) */
+.footer-service-box p {
+    font-size: 13px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+
+    white-space: nowrap;     /* Luôn hiển thị 1 dòng */
+}
+
+@media (max-width: 576px) {
+    .footer-service-box p {
+        white-space: normal; /* Màn hình nhỏ thì cho xuống dòng */
+    }
+}
+
+
+.footer-service-box img {
+    margin: 0 auto 4px auto;
+}
+
+.footer-service-box p {
+    font-size: 13px;
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+/* Dòng cuối footer */
+.footer-bottom {
+    /* border-top: 1px solid #f3b6c8; */
+    padding-top: 8px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+}
