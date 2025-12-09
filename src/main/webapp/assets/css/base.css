@@ -1,130 +1,252 @@
 @charset "UTF-8";
 
 /* ================== GLOBAL ================== */
-
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #333;
-    background-color: #fff;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		sans-serif;
+	color: #333;
+	background-color: #fff;
 }
 
 /* Link chung trong site */
 a {
-    color: #ff4b7d;
-    text-decoration: none;
+	color: #ff4b7d;
+	text-decoration: none;
 }
 
 a:hover {
-    color: #e3386a;
-    text-decoration: underline;
+	color: #e3386a;
+	text-decoration: underline;
 }
 
 /* Section spacing */
 .section-padding {
-    padding: 32px 0;
+	padding: 32px 0;
 }
 
 /* Heading chung */
 .section-title {
-    font-size: 20px;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 16px;
+	font-size: 20px;
+	font-weight: 700;
+	text-transform: uppercase;
+	margin-bottom: 16px;
 }
 
-/* Button primary giống kiểu sale/hồng */
+/* Button primary kiểu sale/hồng */
 .btn-main {
-    background: linear-gradient(90deg, #ff4b7d, #ff2e93);
-    border: none;
-    color: #fff;
-    font-weight: 600;
-    padding: 8px 18px;
-    border-radius: 999px;
+	background: linear-gradient(90deg, #ff4b7d, #ff2e93);
+	border: none;
+	color: #fff;
+	font-weight: 600;
+	padding: 8px 18px;
+	border-radius: 999px;
 }
 
 .btn-main:hover {
-    opacity: 0.9;
-    color: #fff;
+	opacity: 0.9;
+	color: #fff;
 }
 
-/* ================== HEADER (nếu sau này m làm) ================== */
+/* ================== HEADER ================== */
 
-.main-header {
-    border-bottom: 1px solid #f2f2f2;
-    background-color: #fff;
+/* ----- TOP HEADER ----- */
+.top-header {
+	background-color: #ffffff;
+	border-bottom: 2px solid #f7c9d7;
 }
 
-.main-header .nav-link {
-    color: #333;
-    font-size: 14px;
-    text-transform: uppercase;
-    font-weight: 500;
-    padding: 10px 14px;
+.header-logo {
+	width: 80px;
+	height: auto;
+	display: block;
 }
 
-.main-header .nav-link:hover,
-.main-header .nav-link.active {
-    color: #ff4b7d;
+/* Search */
+.search-box {
+	width: 60%;
+	background: #fce4eb;
+	border-radius: 30px;
+	overflow: hidden;
 }
 
-/* ================== FOOTER ================== */
+.search-input {
+	background: transparent;
+	border: none;
+	outline: none;
+	padding-left: 15px;
+}
 
+.search-btn {
+	border: none;
+	background: #f28ab2;
+	color: white;
+	padding: 8px 20px;
+	border-radius: 0 30px 30px 0;
+}
+
+/* Icons */
+.header-icons i {
+	font-size: 22px;
+	cursor: pointer;
+}
+
+.cart-count {
+	position: absolute;
+	top: -6px;
+	right: -8px;
+	background: #f28ab2;
+	color: white;
+	font-size: 12px;
+	padding: 1px 5px;
+	border-radius: 50%;
+}
+
+/* ----- MENU BAR ----- */
+.menu-bar {
+	background-color: #f28ab2;
+	padding: 10px 0;
+}
+
+/* Danh mục trái */
+.category-dropdown {
+	position: relative;
+	display: inline-block;
+	flex: 0 0 auto;
+	width: auto !important;
+	align-items: center;
+	flex-shrink: 0;
+	margin-right: 40px;
+	width: auto !important;
+	flex: 0 0 auto;
+}
+
+.category-btn {
+	color: #fff;
+	font-weight: 700;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+.category-btn i {
+	margin-right: 6px;
+}
+
+/* Menu xổ */
+.category-menu {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 220px;
+	background: #fff;
+	border-radius: 6px;
+	padding: 8px 0;
+	display: none;
+	list-style: none;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+	z-index: 999;
+}
+
+.category-menu a {
+	color: #333;
+	font-weight: 600;
+	padding: 6px 15px;
+	display: block;
+}
+
+.category-menu li:hover {
+	background: #ffe6f0;
+}
+
+.category-dropdown:hover .category-menu {
+	display: block;
+}
+
+/* Menu phải */
+.menu-list {
+	flex: 1;
+	display: flex;
+	list-style: none;
+	gap: 40px;
+	margin: 0;
+	padding: 0;
+	margin-left: 50px;
+	display: flex;
+}
+
+.menu-list a {
+	color: #fff;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+/* ========== FOOTER ============================== */
 footer {
-    font-size: 13px;
-    color: #333;
+	font-size: 13px;
+	color: #333;
+	background-color: #ffd6e7; /* khớp footer.jsp */
+	padding: 10px 0 15px 0;
 }
 
+/* Logo footer */
+.footer-logo {
+	width: 150px;
+	height: auto;
+	display: block;
+	margin-bottom: 0;
+}
+
+/* Tiêu đề các cột */
 footer h6 {
-    font-size: 14px;
-    margin-bottom: 8px;
+	font-size: 14px;
+	margin-bottom: 8px;
+	font-weight: 700;
+	text-transform: uppercase;
 }
 
-footer .footer-link {
-    color: #555 !important;
-    text-decoration: none;
+/* Link trong footer */
+.footer-link {
+	color: #555 !important;
+	text-decoration: none;
+	font-size: 13px;
 }
 
-footer .footer-link:hover {
-    color: #ff2e93 !important;
-    text-decoration: underline;
+.footer-link:hover {
+	color: #ff2e93 !important;
+	text-decoration: underline;
 }
 
-footer img {
-    display: block;
+/* Icon box (giao hàng miễn phí, gói quà,...) */
+.footer-service-box {
+	text-align: center;
+	margin-bottom: 12px;
 }
-
-/* Icon box trong footer (giao hàng miễn phí, gói quà, vv.) */
-.footer-service-box p {
-    font-size: 13px;
-    margin-bottom: 0;
-    text-transform: uppercase;
-
-    white-space: nowrap;     /* Luôn hiển thị 1 dòng */
-}
-
-@media (max-width: 576px) {
-    .footer-service-box p {
-        white-space: normal; /* Màn hình nhỏ thì cho xuống dòng */
-    }
-}
-
 
 .footer-service-box img {
-    margin: 0 auto 4px auto;
+	display: block;
+	margin: 0 auto 4px auto;
+	width: 90px; /* Khớp footer.jsp */
 }
 
 .footer-service-box p {
-    font-size: 13px;
-    margin-bottom: 0;
-    text-transform: uppercase;
+	font-size: 13px;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	white-space: nowrap;
 }
 
-/* Dòng cuối footer */
+/* Mobile fix: cho text xuống dòng */
+@media ( max-width : 576px) {
+	.footer-service-box p {
+		white-space: normal;
+	}
+}
+
+/* Dòng cuối */
 .footer-bottom {
-    /* border-top: 1px solid #f3b6c8; */
-    padding-top: 8px;
-    margin-top: 8px;
-    font-size: 12px;
-    color: #666;
-    text-align: center;
+	padding-top: 8px;
+	margin-top: 12px;
+	font-size: 12px;
+	color: #666;
+	text-align: center;
 }

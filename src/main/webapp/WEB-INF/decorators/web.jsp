@@ -18,15 +18,12 @@
 	rel="stylesheet">
 
 <!-- CSS chung -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/assets/css/base.css">
+<link rel="stylesheet" href="<c:url value='/assets/css/base.css' />">
 
 <!-- CSS giao diện web (user) -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/assets/css/web.css">
+<link rel="stylesheet" href="<c:url value='/assets/css/web.css' />">
 </head>
-
-<body class="bg-light d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100">
 
 	<!-- HEADER -->
 	<jsp:include page="/common/web/header.jsp" />
