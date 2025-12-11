@@ -1,7 +1,6 @@
 package vn.iotstar.beautyshop.controllers.user;
 
 import java.io.IOException;
-import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,20 +11,20 @@ import vn.iotstar.beautyshop.dao.ProductDAO;
 import vn.iotstar.beautyshop.dao.impl.ProductDAOImpl;
 import vn.iotstar.beautyshop.model.Product;
 
-@WebServlet("/product")
-public class ProductController extends HttpServlet {
+@WebServlet("/product-detail")
+public class ProductDetailController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		int categoryId = Integer.parseInt(req.getParameter("cid"));
+		int id = Integer.parseInt(req.getParameter("id"));
 
 		ProductDAO pdao = new ProductDAOImpl();
-		List<Product> list = pdao.findByCategory(categoryId);
+		Product p = pdao.findById(id);
 
-		req.setAttribute("products", list);
+		req.setAttribute("product", p);
 
-		req.getRequestDispatcher("/views/web/product-list.jsp").forward(req, resp);
+		req.getRequestDispatcher("/views/web/product-detail.jsp").forward(req, resp);
 	}
 }
