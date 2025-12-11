@@ -20,12 +20,23 @@ public class CategoryController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        int id = Integer.parseInt(req.getParameter("id"));
+        String idParam = req.getParameter("id");
 
-        ProductDAO pdao = new ProductDAOImpl();
-        List<Product> products = pdao.findByCategory(id);
+        // Nếu không có parameter id, hiển thị trang với dữ liệu tĩnh
+        if (idParam == null || idParam.isEmpty()) {
+            // Không cần set products - JSP đã có dữ liệu tĩnh
+            req.getRequestDispatcher("/views/web/category.jsp").forward(req, resp);
+            return;
+        }
 
-        req.setAttribute("products", products);
+        try {
+            int id = Integer.parseInt(idParam);
+            ProductDAO pdao = new ProductDAOImpl();
+            List<Product> products = pdao.findByCategory(id);
+            req.setAttribute("products", products);
+        } catch (NumberFormatException e) {
+            // Nếu id không hợp lệ, hiển thị trang với dữ liệu tĩnh
+        }
 
         req.getRequestDispatcher("/views/web/category.jsp").forward(req, resp);
     }
