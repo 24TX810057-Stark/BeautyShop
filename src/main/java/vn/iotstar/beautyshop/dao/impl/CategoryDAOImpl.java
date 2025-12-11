@@ -53,4 +53,47 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 		return null;
 	}
+
+	@Override
+	public void insert(Category category) {
+		String sql = "INSERT INTO Categories(name, image) VALUES (?, ?)";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setString(1, category.getName());
+			ps.setString(2, category.getImage());
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void update(Category category) {
+		String sql = "UPDATE Categories SET name = ?, image = ? WHERE id = ?";
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setString(1, category.getName());
+			ps.setString(2, category.getImage());
+			ps.setInt(3, category.getId());
+
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void delete(int id) {
+		String sql = "DELETE FROM Categories WHERE id = ?";
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
