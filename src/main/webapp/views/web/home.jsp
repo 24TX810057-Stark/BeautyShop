@@ -27,22 +27,12 @@
 					<i class="bi bi-grid-3x3-gap"></i> DANH MỤC SẢN PHẨM
 				</div>
 				<ul class="category-sidebar__list">
-					<li><a href="#"><i class="bi bi-chevron-right"></i> Chăm
-							sóc da mặt</a></li>
-					<li><a href="#"><i class="bi bi-chevron-right"></i> Trang
-							điểm</a></li>
-					<li><a href="#"><i class="bi bi-chevron-right"></i> Chăm
-							sóc cơ thể</a></li>
-					<li><a href="#"><i class="bi bi-chevron-right"></i> Chăm
-							sóc tóc</a></li>
-					<li><a href="#"><i class="bi bi-chevron-right"></i> Nước
-							hoa</a></li>
-					<li><a href="#"><i class="bi bi-chevron-right"></i> Phụ
-							kiện làm đẹp</a></li>
-					<li><a href="#"><i class="bi bi-chevron-right"></i> Dược
-							mỹ phẩm</a></li>
-					<li><a href="#"><i class="bi bi-chevron-right"></i> Best
-							Seller</a></li>
+					<c:forEach items="${categories}" var="c">
+						<li><a
+							href="${pageContext.request.contextPath}/category?id=${c.id}">
+								<i class="bi bi-chevron-right"></i> ${c.name}
+						</a></li>
+					</c:forEach>
 				</ul>
 			</div>
 		</div>
@@ -109,70 +99,30 @@
 
 <!-- =============== CATEGORY ICONS =============== -->
 <section class="section-padding">
-	<div class="block-header">
-		<div class="block-header__left">
-			<h3 class="block-header__title">Danh Mục Nổi Bật</h3>
-		</div>
-	</div>
-	<div class="category-icons">
-		<div class="row justify-content-center">
-			<div class="col-6 col-md-4 col-lg-2 mb-4">
-				<a href="#" class="category-icon-card">
-					<div class="category-icon-card__image">
-						<i class="bi bi-droplet"
-							style="font-size: 40px; color: var(--primary);"></i>
-					</div>
-					<p class="category-icon-card__name">Chăm sóc da</p>
-				</a>
-			</div>
-			<div class="col-6 col-md-4 col-lg-2 mb-4">
-				<a href="#" class="category-icon-card">
-					<div class="category-icon-card__image">
-						<i class="bi bi-brush"
-							style="font-size: 40px; color: var(--primary);"></i>
-					</div>
-					<p class="category-icon-card__name">Trang điểm</p>
-				</a>
-			</div>
-			<div class="col-6 col-md-4 col-lg-2 mb-4">
-				<a href="#" class="category-icon-card">
-					<div class="category-icon-card__image">
-						<i class="bi bi-flower1"
-							style="font-size: 40px; color: var(--primary);"></i>
-					</div>
-					<p class="category-icon-card__name">Nước hoa</p>
-				</a>
-			</div>
-			<div class="col-6 col-md-4 col-lg-2 mb-4">
-				<a href="#" class="category-icon-card">
-					<div class="category-icon-card__image">
-						<i class="bi bi-scissors"
-							style="font-size: 40px; color: var(--primary);"></i>
-					</div>
-					<p class="category-icon-card__name">Chăm sóc tóc</p>
-				</a>
-			</div>
-			<div class="col-6 col-md-4 col-lg-2 mb-4">
-				<a href="#" class="category-icon-card">
-					<div class="category-icon-card__image">
-						<i class="bi bi-heart-pulse"
-							style="font-size: 40px; color: var(--primary);"></i>
-					</div>
-					<p class="category-icon-card__name">Chăm sóc cơ thể</p>
-				</a>
-			</div>
-			<div class="col-6 col-md-4 col-lg-2 mb-4">
-				<a href="#" class="category-icon-card">
-					<div class="category-icon-card__image">
-						<i class="bi bi-box-seam"
-							style="font-size: 40px; color: var(--primary);"></i>
-					</div>
-					<p class="category-icon-card__name">Phụ kiện</p>
-				</a>
-			</div>
-		</div>
-	</div>
+    <div class="block-header">
+        <div class="block-header__left">
+            <h3 class="block-header__title">Danh Mục Nổi Bật</h3>
+        </div>
+    </div>
+
+    <div class="category-icons">
+        <div class="row justify-content-center">
+            <c:forEach items="${categories}" var="c" begin="0" end="5">
+                <div class="col-6 col-md-4 col-lg-2 mb-4">
+                    <a href="${pageContext.request.contextPath}/category?id=${c.id}"
+                       class="category-icon-card">
+                        <div class="category-icon-card__image">
+                            <img src="${pageContext.request.contextPath}/assets/images/category/${c.image}"
+                                 style="width:40px;height:40px;">
+                        </div>
+                        <p class="category-icon-card__name">${c.name}</p>
+                    </a>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
 </section>
+
 
 <!-- =============== FLASH SALE =============== -->
 <section class="section-padding section-soft-bg">
@@ -306,49 +256,50 @@
 
 	<!-- =============== NEW ARRIVALS =============== -->
 	<section class="section-padding section-soft-bg">
-	<div class="block-header">
-		<div class="block-header__left">
-			<h3 class="block-header__title">
-				<i class="bi bi-box-seam"></i> Sản Phẩm Mới
-			</h3>
-			<span class="block-header__badge block-header__badge--new">New</span>
-		</div>
-		<div class="block-header__view-all">
-			<a href="#">Xem tất cả <i class="bi bi-arrow-right"></i></a>
-		</div>
-	</div>
-
-	<div class="row">
-		<c:forEach var="p" items="${newList}">
-
-			<div class="col-6 col-md-4 col-lg mb-4">
-				<div class="product-card product-card--new">
-
-					<div class="product-card__thumb">
-						<span class="product-card__badge product-card__badge--new">NEW</span>
-						<img src="${pageContext.request.contextPath}/uploads/${p.image}"
-							 class="product-card__img">
-					</div>
-
-					<h4 class="product-card__name">${p.name}</h4>
-
-					<div class="product-card__price">
-						<span class="product-card__price-current">
-							<fmt:formatNumber value="${p.price}" type="number"/>đ
-						</span>
-					</div>
-
-					<div class="product-card__buy">
-						<a href="${pageContext.request.contextPath}/product/detail?id=${p.id}"
-						   class="btn-buy">Xem chi tiết</a>
-					</div>
-
-				</div>
+		<div class="block-header">
+			<div class="block-header__left">
+				<h3 class="block-header__title">
+					<i class="bi bi-box-seam"></i> Sản Phẩm Mới
+				</h3>
+				<span class="block-header__badge block-header__badge--new">New</span>
 			</div>
+			<div class="block-header__view-all">
+				<a href="#">Xem tất cả <i class="bi bi-arrow-right"></i></a>
+			</div>
+		</div>
 
-		</c:forEach>
-	</div>
-</section>
+		<div class="row">
+			<c:forEach var="p" items="${newList}">
+
+				<div class="col-6 col-md-4 col-lg mb-4">
+					<div class="product-card product-card--new">
+
+						<div class="product-card__thumb">
+							<span class="product-card__badge product-card__badge--new">NEW</span>
+							<img src="${pageContext.request.contextPath}/uploads/${p.image}"
+								class="product-card__img">
+						</div>
+
+						<h4 class="product-card__name">${p.name}</h4>
+
+						<div class="product-card__price">
+							<span class="product-card__price-current"> <fmt:formatNumber
+									value="${p.price}" type="number" />đ
+							</span>
+						</div>
+
+						<div class="product-card__buy">
+							<a
+								href="${pageContext.request.contextPath}/product/detail?id=${p.id}"
+								class="btn-buy">Xem chi tiết</a>
+						</div>
+
+					</div>
+				</div>
+
+			</c:forEach>
+		</div>
+	</section>
 
 
 	<!-- Flash Sale Countdown Script -->
