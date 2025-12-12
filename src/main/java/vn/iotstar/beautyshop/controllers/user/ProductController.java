@@ -32,7 +32,7 @@ public class ProductController extends HttpServlet {
 			int categoryId = Integer.parseInt(cidParam);
 			ProductDAO pdao = new ProductDAOImpl();
 			List<Product> list = pdao.findByCategory(categoryId);
-			req.setAttribute("products", list);
+			req.setAttribute("productsList", list);
 		} catch (NumberFormatException e) {
 			// Nếu cid không hợp lệ, hiển thị trang với dữ liệu tĩnh
 		}
