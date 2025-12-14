@@ -237,18 +237,24 @@ public class ManagerProductController extends HttpServlet {
         }
         String uniqueFileName = "prod_" + UUID.randomUUID().toString().substring(0, 8) + extension;
 
-        // Lấy đường dẫn thư mục upload
-        String uploadPath = req.getServletContext().getRealPath("/assets/images/products");
-
-        // Tạo thư mục nếu chưa tồn tại
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+        // 1. Lưu vào SOURCE folder (để không mất khi redeploy)
+        String sourcePath = vn.iotstar.beautyshop.configs.UploadConfig.getProductUploadPath();
+        File sourceDir = new File(sourcePath);
+        if (!sourceDir.exists()) {
+            sourceDir.mkdirs();
         }
+        String sourceFile = sourcePath + File.separator + uniqueFileName;
+        filePart.write(sourceFile);
 
-        // Lưu file
-        String filePath = uploadPath + File.separator + uniqueFileName;
-        filePart.write(filePath);
+        // 2. Copy vào DEPLOY folder (để hiển thị ngay không cần restart)
+        String deployPath = req.getServletContext().getRealPath("/assets/images/products");
+        File deployDir = new File(deployPath);
+        if (!deployDir.exists()) {
+            deployDir.mkdirs();
+        }
+        String deployFile = deployPath + File.separator + uniqueFileName;
+        java.nio.file.Files.copy(new File(sourceFile).toPath(), new File(deployFile).toPath(),
+                java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
         return "products/" + uniqueFileName;
     }
