@@ -12,27 +12,26 @@ import vn.iotstar.beautyshop.model.Product;
 
 public class ProductDAOImpl implements ProductDAO {
 
-	@Override
-	public List<Product> findByCategory(int categoryId) {
-		List<Product> list = new ArrayList<>();
-		String sql = "SELECT * FROM Products WHERE categoryId=?";
+    @Override
+    public List<Product> findByCategory(int categoryId) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Products WHERE categoryId=?";
 
         try (Connection con = DBConnect.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+                PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, categoryId);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Product p = new Product(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),       // giá gốc
-                    rs.getDouble("salePrice"),   // giá sale
-                    rs.getString("image"),
-                    rs.getInt("categoryId"),
-                    rs.getString("description")
-                );
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"), // giá gốc
+                        rs.getDouble("salePrice"), // giá sale
+                        rs.getString("image"),
+                        rs.getInt("categoryId"),
+                        rs.getString("description"));
                 list.add(p);
             }
 
@@ -41,28 +40,27 @@ public class ProductDAOImpl implements ProductDAO {
         }
 
         return list;
-	}
+    }
 
-	@Override
-	public Product findById(int id) {
-		String sql = "SELECT * FROM Products WHERE id=?";
+    @Override
+    public Product findById(int id) {
+        String sql = "SELECT * FROM Products WHERE id=?";
 
         try (Connection con = DBConnect.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+                PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 return new Product(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getDouble("salePrice"),
-                    rs.getString("image"),
-                    rs.getInt("categoryId"),
-                    rs.getString("description")
-                );
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getDouble("salePrice"),
+                        rs.getString("image"),
+                        rs.getInt("categoryId"),
+                        rs.getString("description"));
             }
 
         } catch (Exception e) {
@@ -70,30 +68,29 @@ public class ProductDAOImpl implements ProductDAO {
         }
 
         return null;
-	}
+    }
 
-	@Override
-	public List<Product> search(String keyword) {
-		List<Product> list = new ArrayList<>();
+    @Override
+    public List<Product> search(String keyword) {
+        List<Product> list = new ArrayList<>();
 
-		String sql = "SELECT * FROM Products WHERE name LIKE ?";
+        String sql = "SELECT * FROM Products WHERE name LIKE ?";
 
         try (Connection con = DBConnect.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+                PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, "%" + keyword + "%");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Product p = new Product(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getDouble("salePrice"),
-                    rs.getString("image"),
-                    rs.getInt("categoryId"),
-                    rs.getString("description")
-                );
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getDouble("salePrice"),
+                        rs.getString("image"),
+                        rs.getInt("categoryId"),
+                        rs.getString("description"));
                 list.add(p);
             }
 
@@ -102,28 +99,27 @@ public class ProductDAOImpl implements ProductDAO {
         }
 
         return list;
-	}
+    }
 
-	@Override
-	public List<Product> findLatest() {
-		List<Product> list = new ArrayList<>();
+    @Override
+    public List<Product> findLatest() {
+        List<Product> list = new ArrayList<>();
 
-		String sql = "SELECT TOP 8 * FROM Products ORDER BY id DESC";
+        String sql = "SELECT TOP 8 * FROM Products ORDER BY id DESC";
 
         try (Connection con = DBConnect.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Product p = new Product(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getDouble("salePrice"),
-                    rs.getString("image"),
-                    rs.getInt("categoryId"),
-                    rs.getString("description")
-                );
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getDouble("salePrice"),
+                        rs.getString("image"),
+                        rs.getInt("categoryId"),
+                        rs.getString("description"));
                 list.add(p);
             }
 
@@ -132,28 +128,27 @@ public class ProductDAOImpl implements ProductDAO {
         }
 
         return list;
-	}
+    }
 
-	@Override
-	public List<Product> findAll() {
-		List<Product> list = new ArrayList<>();
+    @Override
+    public List<Product> findAll() {
+        List<Product> list = new ArrayList<>();
 
-		String sql = "SELECT * FROM Products";
+        String sql = "SELECT * FROM Products";
 
         try (Connection con = DBConnect.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Product p = new Product(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getDouble("price"),
-                    rs.getDouble("salePrice"),
-                    rs.getString("image"),
-                    rs.getInt("categoryId"),
-                    rs.getString("description")
-                );
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getDouble("salePrice"),
+                        rs.getString("image"),
+                        rs.getInt("categoryId"),
+                        rs.getString("description"));
                 list.add(p);
             }
 
@@ -162,5 +157,52 @@ public class ProductDAOImpl implements ProductDAO {
         }
 
         return list;
-	}
+    }
+
+    @Override
+    public void insert(Product product) {
+        String sql = "INSERT INTO Products(name, price, salePrice, image, categoryId, description) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setDouble(3, product.getSalePrice());
+            ps.setString(4, product.getImage());
+            ps.setInt(5, product.getCategoryId());
+            ps.setString(6, product.getDescription());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Product product) {
+        String sql = "UPDATE Products SET name = ?, price = ?, salePrice = ?, image = ?, categoryId = ?, description = ? WHERE id = ?";
+
+        try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setDouble(3, product.getSalePrice());
+            ps.setString(4, product.getImage());
+            ps.setInt(5, product.getCategoryId());
+            ps.setString(6, product.getDescription());
+            ps.setInt(7, product.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        String sql = "DELETE FROM Products WHERE id = ?";
+
+        try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
