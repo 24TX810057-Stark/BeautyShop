@@ -8,27 +8,34 @@
 		class="container d-flex justify-content-between align-items-center py-2">
 
 		<!-- Logo -->
-		<a href="${pageContext.request.contextPath}/home"> 
-		<img src="${pageContext.request.contextPath}/assets/images/logo.png"
+		<a href="${pageContext.request.contextPath}/home"> <img
+			src="${pageContext.request.contextPath}/assets/images/logo.png"
 			alt="Logo" class="header-logo">
 		</a>
 
 		<!-- Search box -->
-		<div class="search-box d-flex align-items-center">
-			<input type="text" class="form-control search-input"
-				placeholder="Bạn cần tìm ....">
-			<button class="search-btn">
+		<form action="${pageContext.request.contextPath}/search" method="get"
+			class="search-box d-flex align-items-center">
+
+			<input type="text" name="keyword" class="form-control search-input"
+				placeholder="Bạn cần tìm ...." value="${param.keyword}">
+
+			<button type="submit" class="search-btn">
 				<i class="bi bi-search"></i>
 			</button>
-		</div>
+		</form>
+
 
 		<!-- User + Cart -->
 		<div class="header-icons d-flex align-items-center">
-			<a href="#" class="mx-2"><i class="bi bi-person"></i></a> <a href="#"
+			<a href="${pageContext.request.contextPath}/profile" class="mx-2">
+				<i class="bi bi-person"></i>
+			</a> <a href="${pageContext.request.contextPath}/cart"
 				class="mx-2 position-relative"> <i class="bi bi-cart3"></i> <span
 				class="cart-count">0</span>
 			</a>
 		</div>
+
 
 	</div>
 	<!-- đóng container -->
@@ -58,7 +65,9 @@
 
 		<!-- Other menu items -->
 		<ul class="menu-list">
-			<li><a href="#">SẢN PHẨM MỚI</a></li>
+			<li><a
+				href="${pageContext.request.contextPath}/product?type=new">SẢN
+					PHẨM MỚI</a></li>
 			<li><a href="#">DEAL HOT DƯỚI 100K</a></li>
 			<li><a href="#">TIN TỨC</a></li>
 			<li><a href="#">TRA CỨU ĐƠN HÀNG</a></li>

@@ -1,38 +1,30 @@
 package vn.iotstar.beautyshop.configs;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.io.File;
 
 public class UploadConfig {
-    private static final Properties props = new Properties();
-    private static String basePath;
+
+    // Thư mục upload gốc: mỗi máy 1 chỗ, nhưng logic giống nhau
+    private static final String BASE_PATH =
+            System.getProperty("user.home") + File.separator + "uploads"
+            + File.separator + "beautyshop";
 
     static {
-        try (InputStream is = UploadConfig.class.getClassLoader().getResourceAsStream("upload.properties")) {
-            if (is != null) {
-                props.load(is);
-                basePath = props.getProperty("upload.basePath");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Fallback nếu không có config
-        if (basePath == null || basePath.isEmpty()) {
-            basePath = System.getProperty("user.dir") + "/src/main/webapp/assets/images";
-        }
-    }
-
-    public static String getCategoryUploadPath() {
-        return basePath + "/categories";
+        // Tạo thư mục nếu chưa tồn tại
+        new File(getProductUploadPath()).mkdirs();
+        new File(getCategoryUploadPath()).mkdirs();
     }
 
     public static String getProductUploadPath() {
-        return basePath + "/products";
+        return BASE_PATH + File.separator + "products";
+    }
+
+    public static String getCategoryUploadPath() {
+        return BASE_PATH + File.separator + "categories";
     }
 
     public static String getBasePath() {
-        return basePath;
+        return BASE_PATH;
     }
 }
+   
