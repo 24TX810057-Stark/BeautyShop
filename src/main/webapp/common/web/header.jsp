@@ -32,7 +32,10 @@
 				<i class="bi bi-person"></i>
 			</a> <a href="${pageContext.request.contextPath}/cart"
 				class="mx-2 position-relative"> <i class="bi bi-cart3"></i> <span
-				class="cart-count">0</span>
+				class="cart-count"> <c:out
+						value="${sessionScope.cartCount != null ? sessionScope.cartCount : 0}" />
+			</span>
+
 			</a>
 		</div>
 
@@ -70,7 +73,8 @@
 					PHẨM MỚI</a></li>
 			<li><a href="#">DEAL HOT DƯỚI 100K</a></li>
 			<li><a href="#">TIN TỨC</a></li>
-			<li><a href="#">TRA CỨU ĐƠN HÀNG</a></li>
+			<li><a href="${pageContext.request.contextPath}/order-tracking">
+					TRA CỨU ĐƠN HÀNG </a></li>
 			<li><a href="#">BEAUTY & COSMETICS</a></li>
 		</ul>
 

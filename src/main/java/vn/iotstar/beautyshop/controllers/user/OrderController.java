@@ -5,8 +5,13 @@ import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import vn.iotstar.beautyshop.model.CartItem;
+import vn.iotstar.beautyshop.model.Order;
+import vn.iotstar.beautyshop.model.User;
 
 @WebServlet("/order")
 public class OrderController extends HttpServlet {
@@ -28,16 +33,31 @@ public class OrderController extends HttpServlet {
 			resp.sendRedirect(req.getContextPath() + "/cart");
 			return;
 		}
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			resp.sendRedirect(req.getContextPath() + "/login");
+			return;
+		}
 
-		// TODO (sau):
-		// - Lấy thông tin giao hàng từ form (name, phone, address, province, ...)
-		// - Tính tiền
-		// - Lưu DB: orders, order_items
+		double total = 0;
+		for (CartItem item : cart) {
+			total += item.getProduct().getPrice() * item.getQuantity();
 
-		// Xong đơn → clear cart
+		}
+
+		Order order = new Order();
+		order.setUserId(user.getId());
+		order.setTotal(total);
+		order.setStatus("PENDING");
+
+		int orderId = orderService.createOrder(order);
+
+		orderService.createOrderItems(orderId, cart);
+
+		// clear cart
 		session.removeAttribute("cart");
 
-		// Sang trang thành công
 		resp.sendRedirect(req.getContextPath() + "/order-success");
+
 	}
 }

@@ -92,19 +92,28 @@
 					<!-- Thêm vào giỏ -->
 					<form action="${pageContext.request.contextPath}/cart"
 						method="post" class="d-inline">
+
 						<input type="hidden" name="productId" value="${product.id}">
+						<input type="hidden" name="action" value="add"> <input
+							type="hidden" name="quantity" id="quantityHidden" value="1">
+
 						<button type="submit" class="btn btn-add-cart">
 							<i class="bi bi-cart-plus"></i> Thêm vào giỏ
 						</button>
 					</form>
 
+
 					<!-- Mua ngay -->
 					<form action="${pageContext.request.contextPath}/cart"
 						method="post" class="d-inline">
+
 						<input type="hidden" name="productId" value="${product.id}">
-						<input type="hidden" name="buyNow" value="true">
+						<input type="hidden" name="buyNow" value="true"> <input
+							type="hidden" name="quantity" id="quantityHiddenBuyNow" value="1">
+
 						<button type="submit" class="btn btn-buy-now">Mua ngay</button>
 					</form>
+
 
 				</div>
 
@@ -156,20 +165,36 @@
 	</div>
 
 	<script>
-					function decreaseQty() {
-						const input = document.getElementById('quantity');
-						if (parseInt(input.value) > 1) {
-							input.value = parseInt(input.value) - 1;
-						}
-					}
+	function syncQuantity() {
+		const input = document.getElementById('quantity');
 
-					function increaseQty() {
-						const input = document.getElementById('quantity');
-						if (parseInt(input.value) < 99) {
-							input.value = parseInt(input.value) + 1;
-						}
-					}
-				</script>
+		const hiddenAdd = document.getElementById('quantityHidden');
+		const hiddenBuy = document.getElementById('quantityHiddenBuyNow');
+
+		if (hiddenAdd) hiddenAdd.value = input.value;
+		if (hiddenBuy) hiddenBuy.value = input.value;
+	}
+
+	function decreaseQty() {
+		const input = document.getElementById('quantity');
+		if (parseInt(input.value) > 1) {
+			input.value = parseInt(input.value) - 1;
+			syncQuantity();
+		}
+	}
+
+	function increaseQty() {
+		const input = document.getElementById('quantity');
+		if (parseInt(input.value) < 99) {
+			input.value = parseInt(input.value) + 1;
+			syncQuantity();
+		}
+	}
+
+	document.getElementById('quantity')?.addEventListener('change', syncQuantity);
+</script>
+
+
 </c:if>
 
 <c:if test="${empty product}">

@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 
-
 <div class="account-wrapper">
 	<div class="account-container">
 
@@ -21,13 +20,30 @@
 			</div>
 
 			<ul class="account-menu">
-				<li class="active"><i class="bi bi-person"></i> Thông tin</li>
-				<li><i class="bi bi-bag"></i> Quản lý đơn hàng</li>
+				<li
+					class="${fn:contains(pageContext.request.requestURI, '/profile') ? 'active' : ''}">
+
+					<a href="${pageContext.request.contextPath}/profile"> <i
+						class="bi bi-person"></i> <span>Thông tin tài khoản</span>
+				</a>
+				</li>
+
+				<li
+					class="${fn:contains(pageContext.request.requestURI, '/order-tracking') ? 'active' : ''}">
+
+					<a href="${pageContext.request.contextPath}/order-tracking"> <i
+						class="bi bi-bag"></i> <span>Đơn hàng của tôi</span>
+				</a>
+				</li>
+
+
 				<li class="logout"><a
 					href="${pageContext.request.contextPath}/logout"> <i
-						class="bi bi-box-arrow-right"></i> Đăng xuất
+						class="bi bi-box-arrow-right"></i> <span>Đăng xuất</span>
 				</a></li>
 			</ul>
+
+
 		</div>
 
 		<!-- CONTENT -->
