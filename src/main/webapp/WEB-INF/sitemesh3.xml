@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemesh>
-    <!-- Layout cho phần web (người dùng) -->
-    <mapping path="/*" decorator="web.jsp" />
+	
+	<mapping path="/assets/*" excluded="true" />
+	
+	<!-- Layout cho phần web (người dùng) -->
+	<mapping path="/*" decorator="/web.jsp" />
 
-    <!-- Layout cho phần admin -->
-    <mapping path="/manager/*" decorator="manager.jsp" />
+	<!-- Layout cho phần admin -->
+	<mapping path="/manager/*" decorator="/manager.jsp" />
 
-    <!-- Loại bỏ trang login, api khỏi decorator -->
-    <mapping path="/api/*" exclude="true" />
-    <mapping path="/login*" exclude="true" />
+	<!-- Loại bỏ trang login, api khỏi decorator -->
+	<mapping path="/api/*" excluded="true" />
+	<mapping path="/login*" excluded="true" />
 </sitemesh>

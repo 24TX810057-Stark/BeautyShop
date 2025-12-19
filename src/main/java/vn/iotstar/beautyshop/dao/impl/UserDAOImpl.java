@@ -200,6 +200,7 @@ public class UserDAOImpl implements UserDAO {
 		User u = new User();
 		u.setId(rs.getInt("id"));
 		u.setEmail(rs.getString("email"));
+		u.setPhone(rs.getString("phone"));
 		u.setPassword(rs.getString("password"));
 		u.setFullName(rs.getString("full_name"));
 		u.setRole(rs.getString("role"));

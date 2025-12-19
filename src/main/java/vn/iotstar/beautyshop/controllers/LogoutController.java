@@ -1,4 +1,4 @@
-package vn.iotstar.beautyshop.controllers.user;
+package vn.iotstar.beautyshop.controllers;
 
 import java.io.IOException;
 
@@ -8,25 +8,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import vn.iotstar.beautyshop.model.User;
 
-@WebServlet("/profile")
-public class ProfileController extends HttpServlet {
+@WebServlet("/logout")
+public class LogoutController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		HttpSession session = req.getSession(false);
-		User user = (session != null) ? (User) session.getAttribute("account") : null;
-
-		if (user == null) {
-			resp.sendRedirect(req.getContextPath() + "/login");
-			return;
+		if (session != null) {
+			session.invalidate(); // hủy ssession
 		}
-
-		req.setAttribute("user", user);
-		req.getRequestDispatcher("/views/web/profile.jsp").forward(req, resp);
+		resp.sendRedirect(req.getContextPath() + "/home");
 	}
 }

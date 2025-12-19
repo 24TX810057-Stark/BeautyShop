@@ -4,7 +4,7 @@
 <div class="container mt-4">
 	<div class="card shadow-sm">
 		<div class="card-header bg-primary text-white fw-semibold">Xin
-			chào, ${sessionScope.account.username}!</div>
+			chào, ${sessionScope.account.fullName}!</div>
 		<div class="card-body">
 			<h5 class="card-title">Bảng điều khiển của Manager</h5>
 			<p class="card-text text-muted">

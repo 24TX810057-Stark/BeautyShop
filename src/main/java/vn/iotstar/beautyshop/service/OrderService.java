@@ -1,18 +1,14 @@
-package vn.iotstar.beautyshop.dao;
+package vn.iotstar.beautyshop.service;
 
 import java.util.List;
 import vn.iotstar.beautyshop.model.Order;
 import vn.iotstar.beautyshop.model.CartItem;
 
-public interface OrderDAO {
+public interface OrderService {
 
-    // INSERT
     int createOrder(Order order);
 
     void createOrderItems(int orderId, List<CartItem> cart);
 
-    // READ
     List<Order> findByUserId(int userId);
-
-    Order findById(int orderId);
 }

@@ -184,13 +184,13 @@ a:hover {
 footer {
 	font-size: 13px;
 	color: #333;
-	background-color: #ffd6e7; /* khớp footer.jsp */
+	background-color: #ffd6e7; 
 	padding: 10px 0 15px 0;
 }
 
 /* Logo footer */
 .footer-logo {
-	width: 150px;
+	width: 200px;
 	height: auto;
 	display: block;
 	margin-bottom: 0;

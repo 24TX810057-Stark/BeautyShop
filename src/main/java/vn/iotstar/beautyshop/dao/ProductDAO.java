@@ -14,4 +14,10 @@ public interface ProductDAO {
 	List<Product> findLatest();
 
 	List<Product> findAll();
+
+	void insert(Product product);
+
+	void update(Product product);
+
+	void delete(int id);
 }

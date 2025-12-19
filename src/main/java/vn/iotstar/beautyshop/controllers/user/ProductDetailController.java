@@ -18,12 +18,23 @@ public class ProductDetailController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		int id = Integer.parseInt(req.getParameter("id"));
+		String idParam = req.getParameter("id");
 
-		ProductDAO pdao = new ProductDAOImpl();
-		Product p = pdao.findById(id);
+		// Nếu không có parameter id, hiển thị trang với dữ liệu tĩnh
+		if (idParam == null || idParam.isEmpty()) {
+			// Không cần set product - JSP đã có dữ liệu tĩnh
+			req.getRequestDispatcher("/views/web/product-detail.jsp").forward(req, resp);
+			return;
+		}
 
-		req.setAttribute("product", p);
+		try {
+			int id = Integer.parseInt(idParam);
+			ProductDAO pdao = new ProductDAOImpl();
+			Product p = pdao.findById(id);
+			req.setAttribute("product", p);
+		} catch (NumberFormatException e) {
+			// Nếu id không hợp lệ, hiển thị trang với dữ liệu tĩnh
+		}
 
 		req.getRequestDispatcher("/views/web/product-detail.jsp").forward(req, resp);
 	}

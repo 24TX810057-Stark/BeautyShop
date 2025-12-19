@@ -86,9 +86,19 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	@Override
 	public void delete(int id) {
+		// Xóa tất cả sản phẩm thuộc danh mục này trước
+		String deleteProducts = "DELETE FROM Products WHERE categoryId = ?";
+		try (Connection conn = DBConnect.getConnection();
+				PreparedStatement ps = conn.prepareStatement(deleteProducts)) {
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// Sau đó xóa danh mục
 		String sql = "DELETE FROM Categories WHERE id = ?";
 		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-
 			ps.setInt(1, id);
 			ps.executeUpdate();
 		} catch (Exception e) {
