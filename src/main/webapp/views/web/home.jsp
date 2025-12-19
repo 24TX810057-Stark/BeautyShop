@@ -117,7 +117,7 @@
 							<c:choose>
 								<c:when test="${not empty cat.image}">
 									<img
-										src="${pageContext.request.contextPath}/assets/images/${cat.image}"
+										src="${pageContext.request.contextPath}/uploads/${cat.image}"
 										alt="${cat.name}">
 								</c:when>
 								<c:otherwise>
@@ -169,7 +169,7 @@
 							<c:choose>
 								<c:when test="${not empty prod.image}">
 									<img
-										src="${pageContext.request.contextPath}/assets/images/${prod.image}"
+										src="${pageContext.request.contextPath}/uploads/${prod.image}"
 										alt="${prod.name}">
 								</c:when>
 								<c:otherwise>
@@ -227,7 +227,7 @@
 							<c:choose>
 								<c:when test="${not empty prod.image}">
 									<img
-										src="${pageContext.request.contextPath}/assets/images/${prod.image}"
+										src="${pageContext.request.contextPath}/uploads/${prod.image}"
 										alt="${prod.name}">
 								</c:when>
 								<c:otherwise>
@@ -293,7 +293,7 @@
 							<c:choose>
 								<c:when test="${not empty prod.image}">
 									<img
-										src="${pageContext.request.contextPath}/assets/images/${prod.image}"
+										src="${pageContext.request.contextPath}/uploads/${prod.image}"
 										alt="${prod.name}">
 								</c:when>
 								<c:otherwise>

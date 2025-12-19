@@ -20,7 +20,7 @@
 					<c:choose>
 						<c:when test="${not empty product.image}">
 							<img
-								src="${pageContext.request.contextPath}/assets/images/${product.image}"
+								src="${pageContext.request.contextPath}/uploads/${product.image}"
 								alt="${product.name}" id="mainImage">
 						</c:when>
 						<c:otherwise>

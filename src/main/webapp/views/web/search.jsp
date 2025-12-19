@@ -24,7 +24,7 @@
                             <c:choose>
                                 <c:when test="${not empty p.image}">
                                     <img
-                                        src="${pageContext.request.contextPath}/assets/images/${p.image}"
+                                        src="${pageContext.request.contextPath}/uploads/${p.image}"
                                         class="card-img-top"
                                         alt="${p.name}">
                                 </c:when>

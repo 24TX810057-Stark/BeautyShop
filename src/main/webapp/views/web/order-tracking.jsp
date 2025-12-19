@@ -48,28 +48,31 @@
 			<c:if test="${empty orders}">
 				<p class="text-muted">Bạn chưa có đơn hàng nào.</p>
 			</c:if>
-
+			
 			<c:forEach var="o" items="${orders}">
-				<div class="border rounded p-3 mb-3">
-					<div>
-						<b>Mã đơn:</b> #${o.id}
-					</div>
+				<a class="text-decoration-none text-dark"
+					href="${pageContext.request.contextPath}/order-detail?id=${o.id}">
+					<div class="border rounded p-3 mb-3">
+						<div>
+							<b>Mã đơn:</b> #${o.id}
+						</div>
 
-					<div>
-						<b>Ngày đặt:</b>
-						<fmt:formatDate value="${o.createdAt}" pattern="dd/MM/yyyy HH:mm" />
-					</div>
+						<div>
+							<b>Ngày đặt:</b>
+							<fmt:formatDate value="${o.createdAt}" pattern="dd/MM/yyyy HH:mm" />
+						</div>
 
-					<div>
-						<b>Trạng thái:</b> ${o.status}
-					</div>
+						<div>
+							<b>Trạng thái:</b> ${o.status}
+						</div>
 
-					<div class="text-danger fw-bold">
-						Tổng tiền:
-						<fmt:formatNumber value="${o.total}" />
-						đ
+						<div class="text-danger fw-bold">
+							Tổng tiền:
+							<fmt:formatNumber value="${o.totalAmount}" />
+							đ
+						</div>
 					</div>
-				</div>
+				</a>
 			</c:forEach>
 
 		</div>

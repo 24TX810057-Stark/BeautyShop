@@ -8,22 +8,25 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import vn.iotstar.beautyshop.model.User;
 
 @WebServlet("/manager/home")
 public class ManagerHomeController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException {
 
-        HttpSession session = req.getSession(false);
+		HttpSession session = req.getSession(false);
 
-        if (session == null || session.getAttribute("account") == null) {
-            resp.sendRedirect(req.getContextPath() + "/login");
-            return;
-        }
+		User user = (session != null) ? (User) session.getAttribute("user") : null;
 
-        req.getRequestDispatcher("/views/manager/home.jsp").forward(req, resp);
-    }
+		if (user == null || !"ADMIN".equalsIgnoreCase(user.getRole())) {
+			resp.sendRedirect(req.getContextPath() + "/login");
+			return;
+		}
+
+		req.getRequestDispatcher("/views/manager/home.jsp").forward(req, resp);
+	}
 }

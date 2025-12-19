@@ -78,7 +78,7 @@
 												</c:if>
 												<c:choose>
 													<c:when test="${not empty prod.image}">
-														<img src="${pageContext.request.contextPath}/assets/images/${prod.image}"
+														<img src="${pageContext.request.contextPath}/uploads/${prod.image}"
 															alt="${prod.name}">
 													</c:when>
 													<c:otherwise>

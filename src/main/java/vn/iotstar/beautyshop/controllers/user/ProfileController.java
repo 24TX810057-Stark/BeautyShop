@@ -19,7 +19,7 @@ public class ProfileController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		HttpSession session = req.getSession(false);
-		User user = (session != null) ? (User) session.getAttribute("account") : null;
+		User user = (session != null) ? (User) session.getAttribute("user") : null;
 
 		if (user == null) {
 			resp.sendRedirect(req.getContextPath() + "/login");

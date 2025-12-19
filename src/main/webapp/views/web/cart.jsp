@@ -49,7 +49,7 @@
 
 					<!-- Image -->
 					<img
-						src="${pageContext.request.contextPath}/assets/images/${item.product.image}"
+						src="${pageContext.request.contextPath}/uploads/${item.product.image}"
 						style="width: 80px; height: 80px; object-fit: cover" class="me-3">
 
 					<!-- Info -->
@@ -143,7 +143,7 @@
 				<c:if test="${cartCount > 0}">
 					<c:if test="${empty sessionScope.account}">
 						<a
-							href="${pageContext.request.contextPath}/login?redirect=checkout"
+							href="${pageContext.request.contextPath}/checkout"
 							class="btn btn-danger w-100 mb-2"> THANH TOÁN NGAY </a>
 					</c:if>
 

@@ -10,18 +10,22 @@ import vn.iotstar.beautyshop.configs.DBConnect;
 import vn.iotstar.beautyshop.dao.OrderDAO;
 import vn.iotstar.beautyshop.model.CartItem;
 import vn.iotstar.beautyshop.model.Order;
+import vn.iotstar.beautyshop.model.OrderItem;
 
 public class OrderDAOImpl implements OrderDAO {
 
 	// ===== SQL =====
-	private static final String FIND_BY_USER = "SELECT id, user_id, total_amount, status, created_at "
-			+ "FROM orders WHERE user_id = ? ORDER BY created_at DESC";
+	private static final String FIND_BY_USER = "SELECT id, user_id, receiver_name, phone, address, ward, "
+			+ "total_amount, status, created_at " + "FROM orders WHERE user_id = ? ORDER BY created_at DESC";
 
-	private static final String INSERT_ORDER = "INSERT INTO orders (user_id, total_amount, status, created_at) "
-			+ "VALUES (?, ?, ?, GETDATE())";
+	private static final String INSERT_ORDER = "INSERT INTO orders (user_id, receiver_name, phone, address, ward, total_amount, status, created_at) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, GETDATE())";
 
 	private static final String INSERT_ORDER_ITEM = "INSERT INTO order_items (order_id, product_id, price, quantity) "
 			+ "VALUES (?, ?, ?, ?)";
+
+	private static final String FIND_BY_ID = "SELECT id, user_id, receiver_name, phone, address, ward, "
+			+ "total_amount, status, created_at " + "FROM orders WHERE id = ?";
 
 	// ===== READ =====
 	@Override
@@ -37,7 +41,7 @@ public class OrderDAOImpl implements OrderDAO {
 				Order o = new Order();
 				o.setId(rs.getInt("id"));
 				o.setUserId(rs.getInt("user_id"));
-				o.setTotal(rs.getDouble("total_amount"));
+				o.setTotalAmount(rs.getDouble("total_amount"));
 				o.setStatus(rs.getString("status"));
 				o.setCreatedAt(rs.getTimestamp("created_at"));
 				list.add(o);
@@ -58,8 +62,12 @@ public class OrderDAOImpl implements OrderDAO {
 				PreparedStatement ps = con.prepareStatement(INSERT_ORDER, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
 			ps.setInt(1, order.getUserId());
-			ps.setDouble(2, order.getTotal());
-			ps.setString(3, order.getStatus());
+			ps.setString(2, order.getReceiverName());
+			ps.setString(3, order.getPhone());
+			ps.setString(4, order.getAddress());
+			ps.setString(5, order.getWard());
+			ps.setDouble(6, order.getTotalAmount());
+			ps.setString(7, order.getStatus());
 
 			ps.executeUpdate();
 
@@ -99,7 +107,87 @@ public class OrderDAOImpl implements OrderDAO {
 
 	@Override
 	public Order findById(int orderId) {
-		// làm sau
-		return null;
+
+		Order o = null;
+
+		try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
+
+			ps.setInt(1, orderId);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				o = new Order();
+				o.setId(rs.getInt("id"));
+				o.setUserId(rs.getInt("user_id"));
+
+				o.setReceiverName(rs.getString("receiver_name"));
+				o.setPhone(rs.getString("phone"));
+				o.setAddress(rs.getString("address"));
+				o.setWard(rs.getString("ward"));
+
+				o.setTotalAmount(rs.getDouble("total_amount"));
+				o.setStatus(rs.getString("status"));
+				o.setCreatedAt(rs.getTimestamp("created_at"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return o;
 	}
+
+	@Override
+	public Order findOrderDetail(int orderId, int userId) {
+
+		String sql = """
+				    SELECT o.id, o.user_id, o.total_amount, o.status, o.created_at,
+				           oi.product_id, oi.price, oi.quantity,
+				           p.name
+				    FROM orders o
+				    JOIN order_items oi ON o.id = oi.order_id
+				    JOIN products p ON oi.product_id = p.id
+				    WHERE o.id = ? AND o.user_id = ?
+				""";
+
+		Order order = null;
+		List<OrderItem> items = new ArrayList<>();
+
+		try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, orderId);
+			ps.setInt(2, userId);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				if (order == null) {
+					order = new Order();
+					order.setId(rs.getInt("id"));
+					order.setUserId(rs.getInt("user_id"));
+					order.setTotalAmount(rs.getDouble("total_amount"));
+					order.setStatus(rs.getString("status"));
+					order.setCreatedAt(rs.getTimestamp("created_at"));
+				}
+
+				OrderItem item = new OrderItem();
+				item.setProductId(rs.getInt("product_id"));
+				item.setProductName(rs.getString("name"));
+				item.setPrice(rs.getDouble("price"));
+				item.setQuantity(rs.getInt("quantity"));
+
+				items.add(item);
+			}
+
+			if (order != null) {
+				order.setItems(items);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return order;
+	}
+
 }

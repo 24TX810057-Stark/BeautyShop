@@ -25,9 +25,9 @@ public class OrderTrackingController extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = req.getSession(false);
-		User user = (User) session.getAttribute("account");
+		User user = (User) session.getAttribute("user");
 
-		// CHƯA LOGIN → ĐÁ VỀ LOGIN
+		// CHƯA LOGIN ==> ĐÁ VỀ LOGIN
 		if (user == null) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 			return;

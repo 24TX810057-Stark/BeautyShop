@@ -6,9 +6,13 @@ import vn.iotstar.beautyshop.model.CartItem;
 
 public interface OrderService {
 
-    int createOrder(Order order);
+	int createOrder(Order order);
 
-    void createOrderItems(int orderId, List<CartItem> cart);
+	void createOrderItems(int orderId, List<CartItem> cart);
 
-    List<Order> findByUserId(int userId);
+	List<Order> findByUserId(int userId);
+
+	Order findById(int orderId);
+
+	Order getOrderDetail(int orderId, int userId);
 }
