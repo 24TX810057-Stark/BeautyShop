@@ -12,197 +12,259 @@ import vn.iotstar.beautyshop.model.Product;
 
 public class ProductDAOImpl implements ProductDAO {
 
-    @Override
-    public List<Product> findByCategory(int categoryId) {
-        List<Product> list = new ArrayList<>();
-        String sql = "SELECT * FROM Products WHERE categoryId=?";
+	@Override
+	public List<Product> findByCategory(int categoryId, String sort) {
+		List<Product> list = new ArrayList<>();
 
-        try (Connection con = DBConnect.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
+		String sql = "SELECT * FROM Products WHERE categoryId=? ORDER BY " + buildOrderBy(sort);
 
-            ps.setInt(1, categoryId);
-            ResultSet rs = ps.executeQuery();
+		try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                Product p = new Product(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"), // giá gốc
-                        rs.getDouble("salePrice"), // giá sale
-                        rs.getString("image"),
-                        rs.getInt("categoryId"),
-                        rs.getString("description"));
-                list.add(p);
-            }
+			ps.setInt(1, categoryId);
+			ResultSet rs = ps.executeQuery();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			while (rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+				list.add(p);
+			}
 
-        return list;
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    @Override
-    public Product findById(int id) {
-        String sql = "SELECT * FROM Products WHERE id=?";
+		return list;
+	}
 
-        try (Connection con = DBConnect.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
+	@Override
+	public Product findById(int id) {
+		String sql = "SELECT * FROM Products WHERE id=?";
 
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+		try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            if (rs.next()) {
-                return new Product(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getDouble("salePrice"),
-                        rs.getString("image"),
-                        rs.getInt("categoryId"),
-                        rs.getString("description"));
-            }
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			if (rs.next()) {
+				return new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+			}
 
-        return null;
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    @Override
-    public List<Product> search(String keyword) {
-        List<Product> list = new ArrayList<>();
+		return null;
+	}
 
-        String sql = "SELECT * FROM Products WHERE name LIKE ?";
+	@Override
+	public List<Product> search(String keyword, String sort) {
+		List<Product> list = new ArrayList<>();
 
-        try (Connection con = DBConnect.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql)) {
+		String sql = "SELECT * FROM Products WHERE name LIKE ? ORDER BY " + buildOrderBy(sort);
 
-            ps.setString(1, "%" + keyword + "%");
-            ResultSet rs = ps.executeQuery();
+		try (Connection con = DBConnect.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                Product p = new Product(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getDouble("salePrice"),
-                        rs.getString("image"),
-                        rs.getInt("categoryId"),
-                        rs.getString("description"));
-                list.add(p);
-            }
+			ps.setString(1, "%" + keyword + "%");
+			ResultSet rs = ps.executeQuery();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			while (rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+				list.add(p);
+			}
 
-        return list;
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    @Override
-    public List<Product> findLatest() {
-        List<Product> list = new ArrayList<>();
+		return list;
+	}
 
-        String sql = "SELECT TOP 8 * FROM Products ORDER BY id DESC";
+	@Override
+	public List<Product> findLatest() {
+		List<Product> list = new ArrayList<>();
 
-        try (Connection con = DBConnect.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+		String sql = "SELECT TOP 8 * FROM Products ORDER BY id DESC";
 
-            while (rs.next()) {
-                Product p = new Product(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getDouble("salePrice"),
-                        rs.getString("image"),
-                        rs.getInt("categoryId"),
-                        rs.getString("description"));
-                list.add(p);
-            }
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			while (rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+				list.add(p);
+			}
 
-        return list;
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    @Override
-    public List<Product> findAll() {
-        List<Product> list = new ArrayList<>();
+		return list;
+	}
 
-        String sql = "SELECT * FROM Products";
+	@Override
+	public List<Product> findAll(String sort) {
+		List<Product> list = new ArrayList<>();
 
-        try (Connection con = DBConnect.getConnection();
-                PreparedStatement ps = con.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()) {
+		String sql = "SELECT * FROM Products ORDER BY " + buildOrderBy(sort);
 
-            while (rs.next()) {
-                Product p = new Product(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("price"),
-                        rs.getDouble("salePrice"),
-                        rs.getString("image"),
-                        rs.getInt("categoryId"),
-                        rs.getString("description"));
-                list.add(p);
-            }
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			while (rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+				list.add(p);
+			}
 
-        return list;
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    @Override
-    public void insert(Product product) {
-        String sql = "INSERT INTO Products(name, price, salePrice, image, categoryId, description) VALUES (?, ?, ?, ?, ?, ?)";
+		return list;
+	}
 
-        try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, product.getName());
-            ps.setDouble(2, product.getPrice());
-            ps.setDouble(3, product.getSalePrice());
-            ps.setString(4, product.getImage());
-            ps.setInt(5, product.getCategoryId());
-            ps.setString(6, product.getDescription());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void insert(Product product) {
+		String sql = "INSERT INTO Products(name, price, salePrice, image, categoryId, description) VALUES (?, ?, ?, ?, ?, ?)";
 
-    @Override
-    public void update(Product product) {
-        String sql = "UPDATE Products SET name = ?, price = ?, salePrice = ?, image = ?, categoryId = ?, description = ? WHERE id = ?";
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, product.getName());
+			ps.setDouble(2, product.getPrice());
+			ps.setDouble(3, product.getSalePrice());
+			ps.setString(4, product.getImage());
+			ps.setInt(5, product.getCategoryId());
+			ps.setString(6, product.getDescription());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-        try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, product.getName());
-            ps.setDouble(2, product.getPrice());
-            ps.setDouble(3, product.getSalePrice());
-            ps.setString(4, product.getImage());
-            ps.setInt(5, product.getCategoryId());
-            ps.setString(6, product.getDescription());
-            ps.setInt(7, product.getId());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void update(Product product) {
+		String sql = "UPDATE Products SET name = ?, price = ?, salePrice = ?, image = ?, categoryId = ?, description = ? WHERE id = ?";
 
-    @Override
-    public void delete(int id) {
-        String sql = "DELETE FROM Products WHERE id = ?";
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, product.getName());
+			ps.setDouble(2, product.getPrice());
+			ps.setDouble(3, product.getSalePrice());
+			ps.setString(4, product.getImage());
+			ps.setInt(5, product.getCategoryId());
+			ps.setString(6, product.getDescription());
+			ps.setInt(7, product.getId());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-        try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void delete(int id) {
+		String sql = "DELETE FROM Products WHERE id = ?";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private String buildOrderBy(String sort) {
+		switch (sort) {
+		case "price_asc":
+			return "price ASC";
+		case "price_desc":
+			return "price DESC";
+		default:
+			return "created_at DESC";
+		}
+	}
+
+	@Override
+	public List<Product> findByCategory(int categoryId) {
+		return findByCategory(categoryId, "new");
+	}
+
+	@Override
+	public List<Product> findAll() {
+		return findAll("new");
+	}
+
+	@Override
+	public List<Product> search(String keyword) {
+		return search(keyword, "new");
+	}
+
+	@Override
+	public List<Product> findByPriceRange(Double min, Double max, String sort) {
+		List<Product> list = new ArrayList<>();
+
+		StringBuilder sql = new StringBuilder("SELECT * FROM Products WHERE 1=1");
+
+		if (min != null)
+			sql.append(" AND price >= ").append(min);
+		if (max != null)
+			sql.append(" AND price <= ").append(max);
+
+		sql.append(" ORDER BY ").append(buildOrderBy(sort));
+
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql.toString());
+				ResultSet rs = ps.executeQuery()) {
+			while (rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+				list.add(p); 
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Product> findBestSeller(int limit) {
+		List<Product> list = new ArrayList<>();
+
+		String sql = String.format("""
+				    SELECT TOP %d
+				        p.id, p.name, p.price, p.salePrice,
+				        p.image, p.categoryId, p.description, p.created_at,
+				        SUM(oi.quantity) AS total_sold
+				    FROM products p
+				    JOIN order_items oi ON p.id = oi.product_id
+				    GROUP BY
+				        p.id, p.name, p.price, p.salePrice,
+				        p.image, p.categoryId, p.description, p.created_at
+				    ORDER BY total_sold DESC
+				""", limit);
+
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+				list.add(p);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

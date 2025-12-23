@@ -4,7 +4,7 @@ import java.io.File;
 
 public class UploadConfig {
 
-    // Thư mục upload gốc: mỗi máy 1 chỗ, nhưng logic giống nhau
+    // Tựa 
     private static final String BASE_PATH =
             System.getProperty("user.home") + File.separator + "uploads"
             + File.separator + "beautyshop";

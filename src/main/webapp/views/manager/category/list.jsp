@@ -75,7 +75,7 @@
                                                     <td>
                                                         <c:choose>
                                                             <c:when test="${not empty cat.image}">
-                                                                <img src="${pageContext.request.contextPath}/assets/images/${cat.image}"
+                                                                <img src="${pageContext.request.contextPath}/uploads/${cat.image}"
                                                                     alt="${cat.name}" class="rounded"
                                                                     style="width: 60px; height: 60px; object-fit: cover;">
                                                             </c:when>

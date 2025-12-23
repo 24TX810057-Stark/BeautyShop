@@ -1294,4 +1294,20 @@
 	color: #2ecc71;
 	font-weight: 600;
 }
+.carousel-indicators {
+	bottom: 15px;
+}
+
+.carousel-indicators button {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: rgba(255,255,255,0.5);
+}
+
+.carousel-indicators .active {
+	width: 22px;
+	border-radius: 10px;
+	background-color: #fff;
+}
 

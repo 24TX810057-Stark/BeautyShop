@@ -20,4 +20,15 @@ public interface ProductDAO {
 	void update(Product product);
 
 	void delete(int id);
+
+	List<Product> findByCategory(int categoryId, String sort);
+
+	List<Product> findAll(String sort);
+
+	List<Product> search(String keyword, String sort);
+
+	List<Product> findByPriceRange(Double min, Double max, String sort);
+
+	List<Product> findBestSeller(int limit);
+
 }

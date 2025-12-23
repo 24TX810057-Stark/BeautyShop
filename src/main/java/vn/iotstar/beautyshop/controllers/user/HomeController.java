@@ -29,26 +29,24 @@ public class HomeController extends HttpServlet {
 		List<Category> categories = categoryDAO.findAll();
 		req.setAttribute("categories", categories);
 
-		// Load tất cả sản phẩm
-		List<Product> allProducts = productDAO.findAll();
-		req.setAttribute("products", allProducts);
+		// Sản phẩm mới
+		List<Product> newProducts = productDAO.findLatest();
+		req.setAttribute("newProducts", newProducts);
 
-		// Sản phẩm mới nhất (8 sản phẩm)
-		List<Product> latestProducts = productDAO.findLatest();
-		req.setAttribute("newProducts", latestProducts);
+		// Lấy tất cả sản phẩm (không dính sort)
+		List<Product> allProducts = productDAO.findAll("new");
 
-		// Flash Sale - lấy sản phẩm có giá sale > 0
-		List<Product> saleProducts = allProducts.stream()
-				.filter(p -> p.getSalePrice() > 0)
-				.limit(5)
-				.toList();
-		req.setAttribute("flashSaleProducts", saleProducts);
+		// Flash Sale
+		List<Product> flashSaleProducts = allProducts.stream().filter(p -> p.getSalePrice() > 0).limit(8).toList();
+		req.setAttribute("flashSaleProducts", flashSaleProducts);
 
-		// Featured Products - 5 sản phẩm đầu tiên
-		List<Product> featuredProducts = allProducts.stream()
-				.limit(5)
-				.toList();
+		// Featured
+		List<Product> featuredProducts = allProducts.stream().limit(8).toList();
 		req.setAttribute("featuredProducts", featuredProducts);
+		
+	    // Best Seller
+	    List<Product> bestSellerProducts = productDAO.findBestSeller(8);
+	    req.setAttribute("bestSellerProducts", bestSellerProducts);
 
 		req.getRequestDispatcher("/views/web/home.jsp").forward(req, resp);
 	}

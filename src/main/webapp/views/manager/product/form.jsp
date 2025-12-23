@@ -113,7 +113,7 @@
                                         <div class="p-3 bg-light rounded text-center" id="imagePreviewContainer">
                                             <c:choose>
                                                 <c:when test="${not empty product.image}">
-                                                    <img src="${pageContext.request.contextPath}/assets/images/${product.image}"
+                                                    <img src="${pageContext.request.contextPath}/uploads/${product.image}"
                                                         alt="${product.name}" id="imagePreview" class="rounded"
                                                         style="max-width: 200px; max-height: 150px; object-fit: cover;">
                                                     <p class="text-muted small mt-2 mb-0">Ảnh hiện tại. Tải ảnh mới để

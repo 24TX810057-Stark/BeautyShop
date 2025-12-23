@@ -26,14 +26,18 @@
 				<div class="category-sidebar__title">
 					<i class="bi bi-grid-3x3-gap"></i> DANH MỤC SẢN PHẨM
 				</div>
+
 				<ul class="category-sidebar__list">
 					<c:forEach var="cat" items="${categories}">
-						<li><a
-							href="${pageContext.request.contextPath}/category?id=${cat.id}">
-								<i class="bi bi-chevron-right"></i> ${cat.name}
-						</a></li>
+						<c:if test="${cat.id != 6}">
+							<li><a
+								href="${pageContext.request.contextPath}/product?cid=${cat.id}">
+									<i class="bi bi-chevron-right"></i> ${cat.name}
+							</a></li>
+						</c:if>
 					</c:forEach>
 				</ul>
+
 			</div>
 		</div>
 
@@ -42,61 +46,51 @@
 			<div class="hero-banner">
 				<div id="heroCarousel" class="carousel slide"
 					data-bs-ride="carousel">
+
+					<!-- INDICATORS (chấm chia trang) -->
 					<div class="carousel-indicators">
 						<button type="button" data-bs-target="#heroCarousel"
-							data-bs-slide-to="0" class="active"></button>
+							data-bs-slide-to="0" class="active" aria-current="true"></button>
 						<button type="button" data-bs-target="#heroCarousel"
 							data-bs-slide-to="1"></button>
 						<button type="button" data-bs-target="#heroCarousel"
 							data-bs-slide-to="2"></button>
 					</div>
+
+					<!-- SLIDES -->
 					<div class="carousel-inner">
 						<div class="carousel-item active">
-							<div class="hero-banner__slide hero-banner__slide--1">
-								<div class="hero-banner__content">
-									<span class="hero-banner__tag">Hot Deal</span>
-									<h2 class="hero-banner__title">Siêu Sale Cuối Năm</h2>
-									<p class="hero-banner__desc">Giảm đến 50% tất cả sản phẩm
-										chăm sóc da</p>
-									<a href="${pageContext.request.contextPath}/product"
-										class="btn btn-main">Mua Ngay</a>
-								</div>
-							</div>
+							<img src="${pageContext.request.contextPath}/assets/images/banner-1.png"
+								class="d-block w-100 hero-banner__img" alt="Banner 1">
 						</div>
+
 						<div class="carousel-item">
-							<div class="hero-banner__slide hero-banner__slide--2">
-								<div class="hero-banner__content">
-									<span class="hero-banner__tag">New Arrival</span>
-									<h2 class="hero-banner__title">Bộ Sưu Tập Mới</h2>
-									<p class="hero-banner__desc">Mỹ phẩm cao cấp từ Hàn Quốc</p>
-									<a href="${pageContext.request.contextPath}/product"
-										class="btn btn-main">Khám Phá</a>
-								</div>
-							</div>
+							<img src="${pageContext.request.contextPath}/assets/images/banner-2.png"
+								class="d-block w-100 hero-banner__img" alt="Banner 2">
 						</div>
+
 						<div class="carousel-item">
-							<div class="hero-banner__slide hero-banner__slide--3">
-								<div class="hero-banner__content">
-									<span class="hero-banner__tag">Best Seller</span>
-									<h2 class="hero-banner__title">Top Sản Phẩm Bán Chạy</h2>
-									<p class="hero-banner__desc">Được yêu thích nhất tháng 12</p>
-									<a href="${pageContext.request.contextPath}/product"
-										class="btn btn-main">Xem Ngay</a>
-								</div>
-							</div>
+							<img src="${pageContext.request.contextPath}/assets/images/banner-3.png"
+								class="d-block w-100 hero-banner__img" alt="Banner 3">
 						</div>
 					</div>
+
+					<!-- NÚT PREV / NEXT -->
 					<button class="carousel-control-prev" type="button"
 						data-bs-target="#heroCarousel" data-bs-slide="prev">
 						<span class="carousel-control-prev-icon"></span>
 					</button>
+
 					<button class="carousel-control-next" type="button"
 						data-bs-target="#heroCarousel" data-bs-slide="next">
 						<span class="carousel-control-next-icon"></span>
 					</button>
+
 				</div>
 			</div>
 		</div>
+
+
 	</div>
 </section>
 
@@ -109,27 +103,43 @@
 	</div>
 	<div class="category-icons">
 		<div class="row justify-content-center">
+			<div class="col-6 col-md-4 col-lg-2 mb-4">
+				<a
+					href="${pageContext.request.contextPath}/product?type=best-seller"
+					class="category-icon-card best-seller-card">
+					<div class="category-icon-card__image">
+						<img
+							src="${pageContext.request.contextPath}/assets/images/best-seller.png"
+							alt="Best Seller">
+					</div>
+					<p class="category-icon-card__name">Best Seller</p>
+				</a>
+			</div>
+
 			<c:forEach var="cat" items="${categories}">
-				<div class="col-6 col-md-4 col-lg-2 mb-4">
-					<a href="${pageContext.request.contextPath}/category?id=${cat.id}"
-						class="category-icon-card">
-						<div class="category-icon-card__image">
-							<c:choose>
-								<c:when test="${not empty cat.image}">
-									<img
-										src="${pageContext.request.contextPath}/uploads/${cat.image}"
-										alt="${cat.name}">
-								</c:when>
-								<c:otherwise>
-									<i class="bi bi-box-seam"
-										style="font-size: 40px; color: var(--primary);"></i>
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<p class="category-icon-card__name">${cat.name}</p>
-					</a>
-				</div>
+				<c:if test="${cat.id != 6}">
+					<div class="col-6 col-md-4 col-lg-2 mb-4">
+						<a href="${pageContext.request.contextPath}/product?cid=${cat.id}"
+							class="category-icon-card">
+							<div class="category-icon-card__image">
+								<c:choose>
+									<c:when test="${not empty cat.image}">
+										<img
+											src="${pageContext.request.contextPath}/uploads/${cat.image}"
+											alt="${cat.name}">
+									</c:when>
+									<c:otherwise>
+										<i class="bi bi-box-seam"
+											style="font-size: 40px; color: var(--primary);"></i>
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<p class="category-icon-card__name">${cat.name}</p>
+						</a>
+					</div>
+				</c:if>
 			</c:forEach>
+
 		</div>
 	</div>
 </section>
@@ -285,7 +295,7 @@
 		</div>
 
 		<div class="row">
-			<c:forEach var="prod" items="${newProducts}" end="4">
+			<c:forEach var="prod" items="${newProducts}">
 				<div class="col-6 col-md-4 col-lg-3 mb-4">
 					<div class="product-card product-card--new">
 						<div class="product-card__thumb">
@@ -332,22 +342,25 @@
 
 <!-- Flash Sale Countdown Script -->
 <script>
-				function updateCountdown() {
-					const now = new Date();
-					const endOfDay = new Date();
-					endOfDay.setHours(23, 59, 59, 999);
+	function updateCountdown() {
+		const now = new Date();
+		const endOfDay = new Date();
+		endOfDay.setHours(23, 59, 59, 999);
 
-					const diff = endOfDay - now;
+		const diff = endOfDay - now;
 
-					const hours = Math.floor(diff / (1000 * 60 * 60));
-					const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-					const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+		const hours = Math.floor(diff / (1000 * 60 * 60));
+		const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+		const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-					document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-					document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-					document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-				}
+		document.getElementById('hours').textContent = hours.toString()
+				.padStart(2, '0');
+		document.getElementById('minutes').textContent = minutes.toString()
+				.padStart(2, '0');
+		document.getElementById('seconds').textContent = seconds.toString()
+				.padStart(2, '0');
+	}
 
-				setInterval(updateCountdown, 1000);
-				updateCountdown();
-			</script>
+	setInterval(updateCountdown, 1000);
+	updateCountdown();
+</script>

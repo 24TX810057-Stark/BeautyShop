@@ -1,7 +1,6 @@
 package vn.iotstar.beautyshop.controllers.user;
 
 import java.io.IOException;
-import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,39 +11,70 @@ import vn.iotstar.beautyshop.dao.CategoryDAO;
 import vn.iotstar.beautyshop.dao.ProductDAO;
 import vn.iotstar.beautyshop.dao.impl.CategoryDAOImpl;
 import vn.iotstar.beautyshop.dao.impl.ProductDAOImpl;
-import vn.iotstar.beautyshop.model.Category;
-import vn.iotstar.beautyshop.model.Product;
 
 @WebServlet("/product")
 public class ProductController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		ProductDAO productDAO = new ProductDAOImpl();
 		CategoryDAO categoryDAO = new CategoryDAOImpl();
 
-		// Load categories cho sidebar
-		List<Category> categories = categoryDAO.findAll();
-		req.setAttribute("categories", categories);
+		// Categories
+		req.setAttribute("categories", categoryDAO.findAll());
 
+		// Sort
+		String sort = req.getParameter("sort");
+		if (sort == null || sort.isEmpty())
+			sort = "new";
+
+		// Price
+		Double min = null, max = null;
+		try {
+			if (req.getParameter("min") != null)
+				min = Double.parseDouble(req.getParameter("min"));
+			if (req.getParameter("max") != null)
+				max = Double.parseDouble(req.getParameter("max"));
+		} catch (Exception ignored) {
+		}
+
+		// Category
 		String cidParam = req.getParameter("cid");
+		Integer categoryId = null;
+		try {
+			if (cidParam != null)
+				categoryId = Integer.parseInt(cidParam);
+		} catch (NumberFormatException ignored) {
+		}
+		// ===== 1. BEST SELLER (LOGIC MENU) =====
+		String type = req.getParameter("type");
+		if ("best-seller".equals(type)) {
 
-		if (cidParam != null && !cidParam.isEmpty()) {
-			try {
-				int categoryId = Integer.parseInt(cidParam);
-				List<Product> list = productDAO.findByCategory(categoryId);
-				req.setAttribute("products", list);
-			} catch (NumberFormatException e) {
-				// Nếu cid không hợp lệ, load tất cả sản phẩm
-				List<Product> allProducts = productDAO.findAll();
-				req.setAttribute("products", allProducts);
-			}
-		} else {
-			// Không có cid, load tất cả sản phẩm
-			List<Product> allProducts = productDAO.findAll();
-			req.setAttribute("products", allProducts);
+			req.setAttribute("products", productDAO.findBestSeller(12));
+			req.setAttribute("pageTitle", "Best Seller");
+		}
+		// ===== 2. FILTER GIÁ =====
+		else if (min != null || max != null) {
+
+			req.setAttribute("products", productDAO.findByPriceRange(min, max, sort));
+			req.setAttribute("pageTitle", "Lọc theo giá");
+
+		}
+		// ===== 3. CATEGORY THƯỜNG =====
+		else if (categoryId != null) {
+
+			req.setAttribute("products", productDAO.findByCategory(categoryId, sort));
+
+		}
+		// ===== 4. ALL =====
+		else {
+
+			req.setAttribute("products", productDAO.findAll(sort));
+			req.setAttribute("pageTitle", "Tất cả sản phẩm");
+
 		}
 
 		req.getRequestDispatcher("/views/web/product-list.jsp").forward(req, resp);
