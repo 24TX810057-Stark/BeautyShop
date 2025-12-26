@@ -17,4 +17,9 @@ public interface OrderDAO {
 	Order findById(int orderId);
 
 	Order findOrderDetail(int orderId, int userId);
+
+	List<Order> findAll();
+
+	void updateStatus(int orderId, String status);
+
 }

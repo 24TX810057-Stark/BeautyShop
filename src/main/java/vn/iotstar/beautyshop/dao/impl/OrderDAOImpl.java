@@ -189,5 +189,51 @@ public class OrderDAOImpl implements OrderDAO {
 
 		return order;
 	}
+//============================================================
+	@Override
+	public List<Order> findAll() {
+		List<Order> list = new ArrayList<>();
+
+		String sql = "SELECT * FROM orders ORDER BY created_at DESC";
+
+		try (Connection conn = DBConnect.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Order o = new Order();
+				o.setId(rs.getInt("id"));
+				o.setUserId(rs.getInt("user_id"));
+				o.setTotalAmount(rs.getDouble("total_amount"));
+				o.setStatus(rs.getString("status"));
+				o.setCreatedAt(rs.getTimestamp("created_at"));
+				o.setReceiverName(rs.getString("receiver_name"));
+				o.setPhone(rs.getString("phone"));
+				o.setAddress(rs.getString("address"));
+				o.setWard(rs.getString("ward"));
+
+				list.add(o);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public void updateStatus(int orderId, String status) {
+
+		String sql = "UPDATE orders SET status = ? WHERE id = ?";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setString(1, status);
+			ps.setInt(2, orderId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

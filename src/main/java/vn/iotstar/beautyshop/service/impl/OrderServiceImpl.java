@@ -36,4 +36,15 @@ public class OrderServiceImpl implements OrderService {
 	public Order getOrderDetail(int orderId, int userId) {
 		return orderDAO.findOrderDetail(orderId, userId);
 	}
+
+	@Override
+	public List<Order> findAll() {
+		return orderDAO.findAll();
+	}
+
+	@Override
+	public void updateStatus(int orderId, String status) {
+		orderDAO.updateStatus(orderId, status);
+	}
+
 }
