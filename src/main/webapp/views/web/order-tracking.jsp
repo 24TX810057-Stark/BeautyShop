@@ -63,7 +63,7 @@
 						</div>
 
 						<div>
-							<b>Trạng thái:</b> ${o.status}
+							<b>Trạng thái:</b> ${o.statusText}
 						</div>
 
 						<div class="text-danger fw-bold">

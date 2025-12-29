@@ -39,27 +39,43 @@
 				<h1 class="product-info__name">${product.name}</h1>
 
 				<!-- Price Box -->
-				<div class="product-info__price-box">
+				
+				<div class="product-info__price-box price-wrap">
 					<c:choose>
 						<c:when test="${product.salePrice > 0}">
-							<span class="product-info__price-current"> <fmt:formatNumber
-									value="${product.salePrice}" type="number" />đ
-							</span>
-							<span class="product-info__price-old"> <fmt:formatNumber
-									value="${product.price}" type="number" />đ
-							</span>
-							<span class="product-info__discount"> - <fmt:formatNumber
-									value="${(product.price - product.salePrice) / product.price * 100}"
-									maxFractionDigits="0" />%
-							</span>
+							<div class="price-line">
+
+								<span class="price-old"> <fmt:formatNumber
+										value="${product.price}" type="number" />đ
+								</span>
+
+								<div class="price-current-wrap">
+									<span class="saving-badge"> Tiết kiệm <fmt:formatNumber
+											value="${product.price - product.salePrice}" type="number" />đ
+									</span> <span class="price-current"> <fmt:formatNumber
+											value="${product.salePrice}" type="number" />đ
+									</span>
+								</div>
+
+								<span class="discount-pill"> <fmt:formatNumber
+										value="${(product.price - product.salePrice) * 100.0 / product.price}"
+										maxFractionDigits="0" />% </span> 
+						
+								 <span class="vat-note">* Giá đã bao gồm VAT</span>
+							</div>
 						</c:when>
+
 						<c:otherwise>
-							<span class="product-info__price-current"> <fmt:formatNumber
-									value="${product.price}" type="number" />đ
-							</span>
+							<div class="price-line">
+								<span class="price-current"> <fmt:formatNumber
+										value="${product.price}" type="number" />đ
+								</span>
+							</div>
 						</c:otherwise>
 					</c:choose>
 				</div>
+
+
 
 				<!-- Promotions -->
 				<div class="product-info__promotions">

@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderItem {
 
-    private int productId;
-    private String productName;
-    private double price;
-    private int quantity;
+	private int productId;
+	private String productName;
+	private String image;
+	private double price;
+	private int quantity;
 }

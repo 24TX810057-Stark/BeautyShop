@@ -49,13 +49,22 @@ public class ProductController extends HttpServlet {
 				categoryId = Integer.parseInt(cidParam);
 		} catch (NumberFormatException ignored) {
 		}
-		// ===== 1. BEST SELLER (LOGIC MENU) =====
+		// ===== 1. BEST SELLER =====
 		String type = req.getParameter("type");
+
 		if ("best-seller".equals(type)) {
 
 			req.setAttribute("products", productDAO.findBestSeller(12));
 			req.setAttribute("pageTitle", "Best Seller");
 		}
+		// ===== 1.1DEAL HOT DƯỚI 100K =====
+		else if ("deal-100k".equals(type)) {
+
+			req.setAttribute("products", productDAO.findDealUnder100k(sort));
+			req.setAttribute("pageTitle", "Deal hot dưới 100K");
+
+		}
+
 		// ===== 2. FILTER GIÁ =====
 		else if (min != null || max != null) {
 

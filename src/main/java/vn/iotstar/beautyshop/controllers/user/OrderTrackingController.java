@@ -21,13 +21,18 @@ public class OrderTrackingController extends HttpServlet {
 	private OrderService orderService = new OrderServiceImpl();
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		HttpSession session = req.getSession(false);
+
+		// CHƯA LOGIN HOẶC CHƯA CÓ SESSION
+		if (session == null) {
+			resp.sendRedirect(req.getContextPath() + "/login");
+			return;
+		}
+
 		User user = (User) session.getAttribute("user");
 
-		// CHƯA LOGIN ==> ĐÁ VỀ LOGIN
 		if (user == null) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 			return;
@@ -37,7 +42,7 @@ public class OrderTrackingController extends HttpServlet {
 		List<Order> orders = orderService.findByUserId(user.getId());
 
 		req.setAttribute("orders", orders);
-		req.getRequestDispatcher("/views/web/order-tracking.jsp")
-		   .forward(req, resp);
+		req.getRequestDispatcher("/views/web/order-tracking.jsp").forward(req, resp);
 	}
+
 }

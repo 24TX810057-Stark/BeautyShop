@@ -4,8 +4,11 @@
 
 <!-- TOP HEADER -->
 <header class="top-header">
+	<!-- <div
+		class="container d-flex justify-content-between align-items-center py-2"> -->
+
 	<div
-		class="container d-flex justify-content-between align-items-center py-2">
+		class="container d-flex flex-wrap justify-content-between align-items-center py-2">
 
 		<!-- Logo -->
 		<a href="${pageContext.request.contextPath}/home"> <img
@@ -15,7 +18,7 @@
 
 		<!-- Search box -->
 		<form action="${pageContext.request.contextPath}/search" method="get"
-			class="search-box d-flex align-items-center">
+			class="search-box d-flex align-items-center mt-2 mt-md-0">
 
 			<input type="text" name="keyword" class="form-control search-input"
 				placeholder="Bạn cần tìm ...." value="${param.keyword}">
@@ -24,7 +27,6 @@
 				<i class="bi bi-search"></i>
 			</button>
 		</form>
-
 
 		<!-- User + Cart -->
 		<div class="header-icons d-flex align-items-center">
@@ -50,7 +52,13 @@
 	<div
 		class="container d-flex align-items-center justify-content-between">
 
-		<!-- Dropdown Danh mục -->
+		<!-- Nút menu mobile (CHỈ DI CHUYỂN VỊ TRÍ) -->
+		<button class="btn d-lg-none" type="button" data-bs-toggle="collapse"
+			data-bs-target="#mobileMenu">
+			<i class="bi bi-list fs-3"></i>
+		</button>
+
+		<!-- Dropdown Danh mục (GIỮ NGUYÊN) -->
 		<div class="category-dropdown">
 			<div class="category-btn">
 				<i class="bi bi-list"></i> DANH MỤC SẢN PHẨM
@@ -66,17 +74,35 @@
 			</ul>
 		</div>
 
-		<!-- Other menu items -->
-		<ul class="menu-list">
+		<!-- Menu desktop (CHỈ DI CHUYỂN VỊ TRÍ) -->
+		<ul class="menu-list d-none d-lg-flex">
 			<li><a
 				href="${pageContext.request.contextPath}/product?type=new">SẢN
 					PHẨM MỚI</a></li>
-			<li><a href="#">DEAL HOT DƯỚI 100K</a></li>
-			<li><a href="#">TIN TỨC</a></li>
-			<li><a href="${pageContext.request.contextPath}/order-tracking">
-					TRA CỨU ĐƠN HÀNG </a></li>
+			<li><a
+				href="${pageContext.request.contextPath}/product?type=deal-100k">DEAL
+					HOT DƯỚI 100K</a></li>
+			<li><a href="${pageContext.request.contextPath}/news">TIN
+					TỨC</a></li>
+			<li><a href="${pageContext.request.contextPath}/order-tracking">TRA
+					CỨU ĐƠN HÀNG</a></li>
 			<li><a href="#">BEAUTY & COSMETICS</a></li>
 		</ul>
+	</div>
 
+	<!-- Menu mobile (CHỈ DI CHUYỂN VỊ TRÍ) -->
+	<div class="collapse d-lg-none" id="mobileMenu">
+		<ul class="menu-list mobile">
+			<li><a
+				href="${pageContext.request.contextPath}/product?type=new">SẢN
+					PHẨM MỚI</a></li>
+			<li><a
+				href="${pageContext.request.contextPath}/product?type=deal-100k">DEAL
+					HOT</a></li>
+			<li><a href="${pageContext.request.contextPath}/news">TIN
+					TỨC</a></li>
+			<li><a href="${pageContext.request.contextPath}/order-tracking">TRA
+					CỨU ĐƠN</a></li>
+		</ul>
 	</div>
 </nav>

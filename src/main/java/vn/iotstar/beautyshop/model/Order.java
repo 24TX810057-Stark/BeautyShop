@@ -19,10 +19,24 @@ public class Order {
 	private String phone;
 	private String address;
 	private String ward;
-	
+
 	private double totalAmount;
 	private String status;
 	private Timestamp createdAt;
-	
+
 	private List<OrderItem> items;
+
+	public String getStatusText() {
+		if (status == null)
+			return "";
+
+		return switch (status) {
+		case "PAID_CONFIRMED" -> "Đã thanh toán";
+		case "WAITING_PICKUP" -> "Đã bàn giao đơn vị vận chuyển";
+		case "DELIVERING" -> "Đang giao hàng";
+		case "COMPLETED" -> "Hoàn thành";
+		default -> "Đã đặt hàng"; // PENDING
+		};
+	}
+
 }

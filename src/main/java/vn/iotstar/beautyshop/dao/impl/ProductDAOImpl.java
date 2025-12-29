@@ -225,7 +225,7 @@ public class ProductDAOImpl implements ProductDAO {
 				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
 						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
 						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
-				list.add(p); 
+				list.add(p);
 			}
 
 		} catch (Exception e) {
@@ -264,6 +264,40 @@ public class ProductDAOImpl implements ProductDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return list;
+	}
+
+	@Override
+	public List<Product> findDealUnder100k(String sort) {
+
+		List<Product> list = new ArrayList<>();
+
+		String orderBy = buildOrderBy(sort);
+
+		String sql = """
+				SELECT *
+				FROM Products
+				WHERE
+				    (salePrice IS NOT NULL AND salePrice <= 100000)
+				    OR
+				    (salePrice IS NULL AND price <= 100000)
+				""" + "ORDER BY " + orderBy;
+
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+				list.add(p);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return list;
 	}
 

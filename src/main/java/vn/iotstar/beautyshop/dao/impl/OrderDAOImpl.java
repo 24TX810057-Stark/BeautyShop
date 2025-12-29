@@ -143,7 +143,8 @@ public class OrderDAOImpl implements OrderDAO {
 		String sql = """
 				    SELECT o.id, o.user_id, o.total_amount, o.status, o.created_at,
 				           oi.product_id, oi.price, oi.quantity,
-				           p.name
+				           p.name,
+				           p.image
 				    FROM orders o
 				    JOIN order_items oi ON o.id = oi.order_id
 				    JOIN products p ON oi.product_id = p.id
@@ -173,6 +174,7 @@ public class OrderDAOImpl implements OrderDAO {
 				OrderItem item = new OrderItem();
 				item.setProductId(rs.getInt("product_id"));
 				item.setProductName(rs.getString("name"));
+				item.setImage(rs.getString("image")); 
 				item.setPrice(rs.getDouble("price"));
 				item.setQuantity(rs.getInt("quantity"));
 

@@ -31,4 +31,6 @@ public interface ProductDAO {
 
 	List<Product> findBestSeller(int limit);
 
+	Object findDealUnder100k(String sort);
+
 }

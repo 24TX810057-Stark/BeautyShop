@@ -5,97 +5,101 @@
 
 <div class="shopee-stepbar">
 
-	<div class="step ${s != 'PENDING' ? 'active' : 'active'}">
+	<!-- Đã đặt -->
+	<div class="step active">
 		<div class="icon">📝</div>
-		<div class="label">Đơn Hàng Đã Đặt</div>
+		<div class="label">Đã đặt hàng</div>
 	</div>
 
 	<div class="line ${s != 'PENDING' ? 'active' : ''}"></div>
 
+	<!-- Đã thanh toán -->
 	<div
 		class="step ${s == 'PAID_CONFIRMED' || s == 'WAITING_PICKUP' || s == 'DELIVERING' || s == 'COMPLETED' ? 'active' : ''}">
 		<div class="icon">💰</div>
-		<div class="label">Đã Thanh Toán</div>
+		<div class="label">Đã thanh toán</div>
 	</div>
 
 	<div
 		class="line ${s == 'WAITING_PICKUP' || s == 'DELIVERING' || s == 'COMPLETED' ? 'active' : ''}"></div>
 
+	<!-- Đã bàn giao -->
 	<div
 		class="step ${s == 'WAITING_PICKUP' || s == 'DELIVERING' || s == 'COMPLETED' ? 'active' : ''}">
 		<div class="icon">📦</div>
-		<div class="label">Đã Giao Cho ĐVVC</div>
+		<div class="label">Đã bàn giao đơn vị vận chuyển</div>
 	</div>
 
 	<div
 		class="line ${s == 'DELIVERING' || s == 'COMPLETED' ? 'active' : ''}"></div>
 
+	<!-- Đang giao -->
 	<div class="step ${s == 'DELIVERING' ? 'active current' : ''}">
 		<div class="icon">🚚</div>
-		<div class="label">Chờ Giao Hàng</div>
+		<div class="label">Đang giao hàng</div>
 	</div>
 
 	<div class="line ${s == 'COMPLETED' ? 'active' : ''}"></div>
 
+	<!-- Hoàn thành -->
 	<div class="step ${s == 'COMPLETED' ? 'active' : ''}">
 		<div class="icon">⭐</div>
-		<div class="label">Đánh Giá</div>
+		<div class="label">Hoàn thành</div>
 	</div>
 
 </div>
 
 <!-- ===== MÔ TẢ TRẠNG THÁI ===== -->
-<p class="order-status-desc">
-	<c:choose>
-		<c:when test="${s == 'PENDING'}">
-            Đơn hàng đã được đặt. Vui lòng chờ xác nhận.
-        </c:when>
-		<c:when test="${s == 'PAID_CONFIRMED'}">
-            Đơn hàng đã được xác nhận thanh toán.
-        </c:when>
-		<c:when test="${s == 'WAITING_PICKUP'}">
-            Người bán đang chuẩn bị hàng.
-        </c:when>
-		<c:when test="${s == 'DELIVERING'}">
-            Đơn hàng đang được giao đến bạn.
-        </c:when>
-		<c:when test="${s == 'COMPLETED'}">
-            Đơn hàng đã giao thành công.
-        </c:when>
-	</c:choose>
-</p>
+<p class="order-status-desc">${order.statusText}</p>
 
-<!-- ================= CHI TIẾT ĐƠN HÀNG ================= -->
-<div class="order-box">
-	<h3>Chi tiết đơn hàng #${order.id}</h3>
+<!-- ======== CHI TIẾT ĐƠN HÀNG (2 CỘT) =============== -->
+<div class="order-wrapper">
 
-	<p>
-		Ngày đặt:
-		<fmt:formatDate value="${order.createdAt}" pattern="dd/MM/yyyy HH:mm" />
-	</p>
-
-	<p>
-		<b>Tổng tiền:</b>
-		<fmt:formatNumber value="${order.totalAmount}" type="currency" />
-	</p>
-
-	<table class="order-table">
-		<tr>
-			<th>Sản phẩm</th>
-			<th>Giá</th>
-			<th>Số lượng</th>
-			<th>Tạm tính</th>
-		</tr>
+	<!-- LEFT: DANH SÁCH SẢN PHẨM -->
+	<div class="order-left">
+		<h3>Sản phẩm</h3>
 
 		<c:forEach items="${order.items}" var="item">
-			<tr>
-				<td>${item.productName}</td>
-				<td><fmt:formatNumber value="${item.price}" type="currency" />
-				</td>
-				<td>${item.quantity}</td>
-				<td><fmt:formatNumber value="${item.price * item.quantity}"
-						type="currency" /></td>
-			</tr>
+
+			<div class="order-item">
+				<div class="order-item-thumb">
+					<img src="${pageContext.request.contextPath}/uploads/${item.image}"
+						alt="${item.productName}" />
+				</div>
+
+				<div class="order-item-info">
+					<div class="name">${item.productName}</div>
+					<div class="meta">
+						<fmt:formatNumber value="${item.price}" type="currency" />
+						× ${item.quantity}
+					</div>
+				</div>
+			</div>
+
+
 		</c:forEach>
-	</table>
+
+	</div>
+
+	<!-- RIGHT: TÓM TẮT ĐƠN HÀNG -->
+	<div class="order-right">
+		<h3>Tóm tắt đơn hàng</h3>
+
+		<div class="summary-row">
+			<span>Mã đơn</span> <span>#${order.id}</span>
+		</div>
+
+		<div class="summary-row">
+			<span>Ngày đặt</span> <span> <fmt:formatDate
+					value="${order.createdAt}" pattern="dd/MM/yyyy HH:mm" />
+			</span>
+		</div>
+
+		<div class="summary-row total">
+			<span>Tổng tiền</span> <span> <fmt:formatNumber
+					value="${order.totalAmount}" type="currency" />
+			</span>
+		</div>
+	</div>
+
 </div>
