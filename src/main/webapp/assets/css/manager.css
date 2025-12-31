@@ -2,73 +2,82 @@
 
 /* Tổng thể */
 body {
-    background: #f1f3f5;
-    font-family: "Inter", "Segoe UI", sans-serif;
+	background: #f1f3f5;
+	font-family: "Inter", "Segoe UI", sans-serif;
 }
 
 /* SIDEBAR */
 .sidebar {
-    background: #1b1f24;
-    color: #e9ecef;
-    min-height: 100vh;
-    padding: 20px 0;
-    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
+	background: #1b1f24;
+	color: #e9ecef;
+	min-height: 100vh;
+	padding: 20px 0;
+	box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Logo / Title trong sidebar */
 .sidebar .brand {
-    font-size: 20px;
-    font-weight: 700;
-    color: #ffffff;
-    padding: 0 20px 15px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #343a40;
+	font-size: 20px;
+	font-weight: 700;
+	color: #ffffff;
+	padding: 0 20px 15px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #343a40;
 }
 
 /* Link menu */
 .sidebar a {
-    color: #adb5bd;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 18px;
-    margin: 6px 10px;
-    border-radius: 8px;
-    transition: 0.25s ease-in-out;
-    font-size: 15px;
+	color: #adb5bd;
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 18px;
+	margin: 6px 10px;
+	border-radius: 8px;
+	transition: 0.25s ease-in-out;
+	font-size: 15px;
 }
 
 /* Icon trong sidebar */
 .sidebar a i {
-    font-size: 18px;
+	font-size: 18px;
 }
 
 /* Hover và Active */
-.sidebar a:hover,
-.sidebar a.active {
-    color: #fff;
-    background: linear-gradient(135deg, #495057, #343a40);
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
-    transform: translateX(4px);
+.sidebar a:hover, .sidebar a.active {
+	color: #fff;
+	background: linear-gradient(135deg, #495057, #343a40);
+	box-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
+	transform: translateX(4px);
 }
 
 /* MAIN CONTENT */
 main {
-    padding: 25px;
+	padding: 25px;
 }
 
 /* Card trong dashboard */
 .admin-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #dee2e6;
-    transition: 0.2s ease-in-out;
+	background: #ffffff;
+	border-radius: 12px;
+	padding: 20px;
+	border: 1px solid #dee2e6;
+	transition: 0.2s ease-in-out;
 }
 
 .admin-card:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+	transform: translateY(-2px);
 }
 
+/* ===== CHART ADMIN ===== */
+.chart-box {
+	position: relative;
+	height: 320px;
+}
+
+.chart-box canvas {
+	width: 100% !important;
+	height: 100% !important;
+}

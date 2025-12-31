@@ -1,8 +1,10 @@
 package vn.iotstar.beautyshop.dao;
 
 import java.util.List;
-import vn.iotstar.beautyshop.model.Order;
+import java.util.Map;
+
 import vn.iotstar.beautyshop.model.CartItem;
+import vn.iotstar.beautyshop.model.Order;
 
 public interface OrderDAO {
 
@@ -21,5 +23,19 @@ public interface OrderDAO {
 	List<Order> findAll();
 
 	void updateStatus(int orderId, String status);
+
+	double sumRevenue();
+
+	int countAll();
+
+	Map<Integer, Double> getRevenueByDay(int month, int year);
+
+	double getRevenueByMonth(int month, int year);
+
+	int countCompletedOrders(int month, int year);
+
+	Map<String, Double> getRevenueByCategory();
+
+	Map<String, Double> getRevenueByCategory(int month, int year);
 
 }

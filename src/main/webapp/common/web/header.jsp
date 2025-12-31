@@ -4,9 +4,6 @@
 
 <!-- TOP HEADER -->
 <header class="top-header">
-	<!-- <div
-		class="container d-flex justify-content-between align-items-center py-2"> -->
-
 	<div
 		class="container d-flex flex-wrap justify-content-between align-items-center py-2">
 
@@ -18,7 +15,7 @@
 
 		<!-- Search box -->
 		<form action="${pageContext.request.contextPath}/search" method="get"
-			class="search-box d-flex align-items-center mt-2 mt-md-0">
+			class="search-box d-flex align-items-center flex-grow-1 mx-3 mt-2 mt-md-0">
 
 			<input type="text" name="keyword" class="form-control search-input"
 				placeholder="Bạn cần tìm ...." value="${param.keyword}">
@@ -53,7 +50,7 @@
 		class="container d-flex align-items-center justify-content-between">
 
 		<!-- Nút menu mobile (CHỈ DI CHUYỂN VỊ TRÍ) -->
-		<button class="btn d-lg-none" type="button" data-bs-toggle="collapse"
+		<button class="btn d-md-none" type="button" data-bs-toggle="collapse"
 			data-bs-target="#mobileMenu">
 			<i class="bi bi-list fs-3"></i>
 		</button>

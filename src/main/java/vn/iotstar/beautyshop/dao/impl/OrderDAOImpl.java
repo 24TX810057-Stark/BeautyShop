@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import vn.iotstar.beautyshop.configs.DBConnect;
 import vn.iotstar.beautyshop.dao.OrderDAO;
@@ -174,7 +176,7 @@ public class OrderDAOImpl implements OrderDAO {
 				OrderItem item = new OrderItem();
 				item.setProductId(rs.getInt("product_id"));
 				item.setProductName(rs.getString("name"));
-				item.setImage(rs.getString("image")); 
+				item.setImage(rs.getString("image"));
 				item.setPrice(rs.getDouble("price"));
 				item.setQuantity(rs.getInt("quantity"));
 
@@ -191,6 +193,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 		return order;
 	}
+
 //============================================================
 	@Override
 	public List<Order> findAll() {
@@ -236,6 +239,192 @@ public class OrderDAOImpl implements OrderDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	// Manager
+	@Override
+	public double sumRevenue() {
+		String sql = "SELECT COALESCE(SUM(total_amount), 0) FROM orders WHERE status = 'COMPLETED'";
+		try (Connection conn = DBConnect.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			if (rs.next()) {
+				return rs.getDouble(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int countAll() {
+		String sql = "SELECT COUNT(*) FROM orders";
+		try (Connection conn = DBConnect.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public Map<String, Double> getRevenueByCategory() {
+		Map<String, Double> map = new LinkedHashMap<>();
+
+		String sql = """
+				SELECT c.name, SUM(oi.price * oi.quantity) AS revenue
+				FROM orders o
+				JOIN order_items oi ON o.id = oi.order_id
+				JOIN products p ON oi.product_id = p.id
+				JOIN categories c ON p.categoryId = c.id
+				WHERE o.status = 'COMPLETED'
+				GROUP BY c.name
+				ORDER BY revenue DESC
+
+								""";
+
+		try (Connection conn = DBConnect.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				map.put(rs.getString(1), rs.getDouble(2));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+	}
+
+	@Override
+	public Map<Integer, Double> getRevenueByDay(int month, int year) {
+		Map<Integer, Double> map = new LinkedHashMap<>();
+
+		String sql = """
+				    SELECT DAY(created_at) AS day,
+				           SUM(total_amount) AS revenue
+				    FROM orders
+				    WHERE status = 'COMPLETED'
+				      AND MONTH(created_at) = ?
+				      AND YEAR(created_at) = ?
+				    GROUP BY DAY(created_at)
+				    ORDER BY day
+				""";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, month);
+			ps.setInt(2, year);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				map.put(rs.getInt("day"), rs.getDouble("revenue"));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
+	}
+
+	@Override
+	public double getRevenueByMonth(int month, int year) {
+		String sql = """
+				    SELECT COALESCE(SUM(total_amount), 0)
+				    FROM orders
+				    WHERE status = 'COMPLETED'
+				      AND MONTH(created_at) = ?
+				      AND YEAR(created_at) = ?
+				""";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, month);
+			ps.setInt(2, year);
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getDouble(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	@Override
+	public int countCompletedOrders(int month, int year) {
+		String sql = """
+				    SELECT COUNT(*)
+				    FROM orders
+				    WHERE status = 'COMPLETED'
+				      AND MONTH(created_at) = ?
+				      AND YEAR(created_at) = ?
+				""";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, month);
+			ps.setInt(2, year);
+
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	@Override
+	public Map<String, Double> getRevenueByCategory(int month, int year) {
+
+		Map<String, Double> map = new LinkedHashMap<>();
+
+		String sql = """
+				    SELECT c.name,
+				           SUM(oi.price * oi.quantity) AS revenue
+				    FROM orders o
+				    JOIN order_items oi ON o.id = oi.order_id
+				    JOIN products p ON oi.product_id = p.id
+				    JOIN categories c ON p.categoryId = c.id
+				    WHERE o.status = 'COMPLETED'
+				      AND MONTH(o.created_at) = ?
+				      AND YEAR(o.created_at) = ?
+				    GROUP BY c.name
+				    ORDER BY revenue DESC
+				""";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, month);
+			ps.setInt(2, year);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					map.put(rs.getString("name"), rs.getDouble("revenue"));
+				}
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return map;
 	}
 
 }

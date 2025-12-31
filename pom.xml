@@ -9,13 +9,20 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 
-<!--	<properties>
+	<!--	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>-->
 
 	<dependencies>
+	<!--Xuất data -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.5</version>
+		</dependency>
+
 
 		<!-- Sitemesh -->
 		<dependency>

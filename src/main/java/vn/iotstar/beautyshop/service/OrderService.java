@@ -1,24 +1,41 @@
 package vn.iotstar.beautyshop.service;
 
 import java.util.List;
-import vn.iotstar.beautyshop.model.Order;
+import java.util.Map;
+
 import vn.iotstar.beautyshop.model.CartItem;
+import vn.iotstar.beautyshop.model.Order;
 
 public interface OrderService {
 
-    // ===== USER =====
-    int createOrder(Order order);
+	// ===== USER =====
+	int createOrder(Order order);
 
-    void createOrderItems(int orderId, List<CartItem> cart);
+	void createOrderItems(int orderId, List<CartItem> cart);
 
-    List<Order> findByUserId(int userId);
+	List<Order> findByUserId(int userId);
 
-    Order findById(int orderId);
+	Order findById(int orderId);
 
-    Order getOrderDetail(int orderId, int userId);
+	Order getOrderDetail(int orderId, int userId);
 
-    // ===== MANAGER =====
-    List<Order> findAll();                 // manager xem danh sách đơn
+	// ===== MANAGER =====
+	List<Order> findAll(); // manager xem danh sách đơn
 
-    void updateStatus(int orderId, String status); // manager đổi trạng thái
+	void updateStatus(int orderId, String status); // manager đổi trạng thái
+
+	int countOrders();
+
+	double getTotalRevenue();
+
+	Map<Integer, Double> getRevenueByDay(int month, int year);
+
+	double getRevenueByMonth(int month, int year);
+
+	int countCompletedOrders(int month, int year);
+
+	Map<String, Double> getRevenueByCategory();
+
+	Map<String, Double> getRevenueByCategory(int month, int year);
+
 }

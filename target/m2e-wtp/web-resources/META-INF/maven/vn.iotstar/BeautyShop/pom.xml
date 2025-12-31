@@ -9,13 +9,20 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 
-<!--	<properties>
+	<!--	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>-->
 
 	<dependencies>
+	<!--Xuất data -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.2.5</version>
+		</dependency>
+
 
 		<!-- Sitemesh -->
 		<dependency>
@@ -81,8 +88,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.14.0</version>
 				<configuration>
-					<source>24</source>
-					<target>24</target>
+					<source>21</source>
+					<target>21</target>
 				</configuration>
 			</plugin>
 

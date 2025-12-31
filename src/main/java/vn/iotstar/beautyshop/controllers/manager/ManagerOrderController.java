@@ -19,7 +19,8 @@ import vn.iotstar.beautyshop.service.impl.OrderServiceImpl;
 })
 public class ManagerOrderController extends HttpServlet {
 
-    private OrderService orderService;
+	private static final long serialVersionUID = 1L;
+	private OrderService orderService;
 
     @Override
     public void init() {

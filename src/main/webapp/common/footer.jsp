@@ -65,12 +65,25 @@
 					<div class="col-md-4 col-sm-6 mb-3">
 						<h6>Chăm sóc khách hàng</h6>
 						<ul class="list-unstyled mb-0">
-							<li><a href="#" class="footer-link">Chính sách đổi trả</a></li>
-							<li><a href="#" class="footer-link">Chính sách bảo mật</a></li>
-							<li><a href="#" class="footer-link">Chính sách thanh
-									toán</a></li>
-							<li><a href="#" class="footer-link">Điều khoản dịch vụ</a></li>
-							<li><a href="#" class="footer-link">Hướng dẫn mua hàng</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/page/return-policy"
+								class="footer-link"> Chính sách đổi trả </a></li>
+
+							<li><a
+								href="${pageContext.request.contextPath}/page/privacy-policy"
+								class="footer-link">Chính sách bảo mật</a></li>
+
+							<li><a
+								href="${pageContext.request.contextPath}/page/payment-policy"
+								class="footer-link">Chính sách thanh toán</a></li>
+
+							<li><a href="${pageContext.request.contextPath}/page/terms"
+								class="footer-link">Điều khoản dịch vụ</a></li>
+
+							<li><a
+								href="${pageContext.request.contextPath}/page/buy-guide"
+								class="footer-link">Hướng dẫn mua hàng</a></li>
+
 						</ul>
 					</div>
 
@@ -87,11 +100,17 @@
 					<div class="col-md-4 col-sm-6 mb-3">
 						<h6>Thông tin công ty</h6>
 						<ul class="list-unstyled mb-0">
-							<li><a href="#" class="footer-link">Giới thiệu</a></li>
-							<li><a href="#" class="footer-link">Liên hệ hợp tác</a></li>
-							<li><a href="#" class="footer-link">Tuyển dụng</a></li>
-							<li><a href="#" class="footer-link">Giấy chứng nhận đại
-									lý</a></li>
+							<li><a href="${pageContext.request.contextPath}/page/about"
+								class="footer-link">Giới thiệu</a></li>
+
+							<li><a
+								href="${pageContext.request.contextPath}/page/contact"
+								class="footer-link">Liên hệ hợp tác</a></li>
+
+							<li><a
+								href="${pageContext.request.contextPath}/page/recruitment"
+								class="footer-link">Tuyển dụng</a></li>
+
 						</ul>
 					</div>
 
@@ -102,6 +121,5 @@
 
 		<div class="footer-bottom">© 2025 Beauty & Cosmetic Store – All
 			Rights Reserved</div>
-
 	</div>
 </footer>

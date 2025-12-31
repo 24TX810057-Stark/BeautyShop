@@ -22,15 +22,21 @@
 						</div>
 					</div>
 				</div>
+
 				<div class="col-md-4">
 					<div class="card text-center border-0 shadow-sm">
 						<div class="card-body">
 							<h6 class="fw-bold">Báo cáo doanh thu</h6>
 							<p class="small text-muted">Xem báo cáo và thống kê</p>
-							<a href="#" class="btn btn-outline-primary btn-sm">Xem ngay</a>
+							
+							<a href="${pageContext.request.contextPath}/manager/revenue"
+								class="btn btn-outline-primary btn-sm"> 
+								Xem ngay </a>
+
 						</div>
 					</div>
 				</div>
+
 				<div class="col-md-4">
 					<div class="card text-center border-0 shadow-sm">
 						<div class="card-body">

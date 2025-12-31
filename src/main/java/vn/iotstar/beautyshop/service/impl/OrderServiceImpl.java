@@ -1,6 +1,7 @@
 package vn.iotstar.beautyshop.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import vn.iotstar.beautyshop.dao.OrderDAO;
 import vn.iotstar.beautyshop.dao.impl.OrderDAOImpl;
@@ -45,6 +46,41 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public void updateStatus(int orderId, String status) {
 		orderDAO.updateStatus(orderId, status);
+	}
+
+	@Override
+	public double getTotalRevenue() {
+		return orderDAO.sumRevenue();
+	}
+
+	@Override
+	public int countOrders() {
+		return orderDAO.countAll();
+	}
+
+	@Override
+	public Map<Integer, Double> getRevenueByDay(int month, int year) {
+		return orderDAO.getRevenueByDay(month, year);
+	}
+
+	@Override
+	public double getRevenueByMonth(int month, int year) {
+		return orderDAO.getRevenueByMonth(month, year);
+	}
+
+	@Override
+	public int countCompletedOrders(int month, int year) {
+		return orderDAO.countCompletedOrders(month, year);
+	}
+
+	@Override
+	public Map<String, Double> getRevenueByCategory() {
+		return orderDAO.getRevenueByCategory();
+	}
+
+	@Override
+	public Map<String, Double> getRevenueByCategory(int month, int year) {
+		return orderDAO.getRevenueByCategory(month, year);
 	}
 
 }
