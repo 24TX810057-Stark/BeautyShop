@@ -35,6 +35,49 @@ public class CategoryDAOImpl implements CategoryDAO {
 	}
 
 	@Override
+	public List<Category> findAll(int offset, int limit) {
+		List<Category> list = new ArrayList<>();
+		String sql = "SELECT * FROM Categories ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, offset);
+			ps.setInt(2, limit);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Category c = new Category(rs.getInt("id"), rs.getString("name"), rs.getString("image"));
+				list.add(c);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public int count() {
+		String sql = "SELECT COUNT(*) FROM Categories";
+
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	@Override
 	public Category findById(int id) {
 		String sql = "SELECT * FROM Categories WHERE id=?";
 

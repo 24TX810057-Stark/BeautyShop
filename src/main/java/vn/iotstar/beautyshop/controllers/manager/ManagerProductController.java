@@ -41,18 +41,18 @@ public class ManagerProductController extends HttpServlet {
 		}
 
 		switch (action) {
-		case "add":
-			showAddForm(req, resp);
-			break;
-		case "edit":
-			showEditForm(req, resp);
-			break;
-		case "delete":
-			deleteProduct(req, resp);
-			break;
-		default:
-			listProducts(req, resp);
-			break;
+			case "add":
+				showAddForm(req, resp);
+				break;
+			case "edit":
+				showEditForm(req, resp);
+				break;
+			case "delete":
+				deleteProduct(req, resp);
+				break;
+			default:
+				listProducts(req, resp);
+				break;
 		}
 	}
 
@@ -71,13 +71,39 @@ public class ManagerProductController extends HttpServlet {
 		}
 	}
 
+	private static final int PAGE_SIZE = 10;
+
 	// Hiển thị danh sách sản phẩm
 	private void listProducts(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<Product> products = productDAO.findAll();
-		
+
+		// Pagination
+		int page = 1;
+		try {
+			String pageStr = req.getParameter("page");
+			if (pageStr != null) {
+				page = Integer.parseInt(pageStr);
+				if (page < 1)
+					page = 1;
+			}
+		} catch (NumberFormatException e) {
+			page = 1;
+		}
+
+		int totalItems = productDAO.count();
+		int totalPages = (int) Math.ceil((double) totalItems / PAGE_SIZE);
+		if (page > totalPages && totalPages > 0)
+			page = totalPages;
+
+		int offset = (page - 1) * PAGE_SIZE;
+		List<Product> products = productDAO.findAllPaginated(offset, PAGE_SIZE);
+
 		List<Category> categories = categoryDAO.findAll();
 		req.setAttribute("products", products);
 		req.setAttribute("categories", categories);
+		req.setAttribute("currentPage", page);
+		req.setAttribute("totalPages", totalPages);
+		req.setAttribute("totalItems", totalItems);
+		req.setAttribute("baseUrl", req.getContextPath() + "/manager/products");
 
 		// Kiểm tra thông báo từ session
 		String message = (String) req.getSession().getAttribute("message");

@@ -8,10 +8,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import vn.iotstar.beautyshop.dao.BannerDAO;
 import vn.iotstar.beautyshop.dao.CategoryDAO;
 import vn.iotstar.beautyshop.dao.ProductDAO;
+import vn.iotstar.beautyshop.dao.impl.BannerDAOImpl;
 import vn.iotstar.beautyshop.dao.impl.CategoryDAOImpl;
 import vn.iotstar.beautyshop.dao.impl.ProductDAOImpl;
+import vn.iotstar.beautyshop.model.Banner;
 import vn.iotstar.beautyshop.model.Category;
 import vn.iotstar.beautyshop.model.Product;
 
@@ -24,10 +27,15 @@ public class HomeController extends HttpServlet {
 
 		CategoryDAO categoryDAO = new CategoryDAOImpl();
 		ProductDAO productDAO = new ProductDAOImpl();
+		BannerDAO bannerDAO = new BannerDAOImpl();
 
 		// Load danh mục
 		List<Category> categories = categoryDAO.findAll();
 		req.setAttribute("categories", categories);
+
+		// Load banners (active, sắp xếp theo displayOrder từ bé đến lớn)
+		List<Banner> banners = bannerDAO.findAllActive();
+		req.setAttribute("banners", banners);
 
 		// Sản phẩm mới
 		List<Product> newProducts = productDAO.findLatest();
@@ -43,10 +51,10 @@ public class HomeController extends HttpServlet {
 		// Featured
 		List<Product> featuredProducts = allProducts.stream().limit(8).toList();
 		req.setAttribute("featuredProducts", featuredProducts);
-		
-	    // Best Seller
-	    List<Product> bestSellerProducts = productDAO.findBestSeller(8);
-	    req.setAttribute("bestSellerProducts", bestSellerProducts);
+
+		// Best Seller
+		List<Product> bestSellerProducts = productDAO.findBestSeller(8);
+		req.setAttribute("bestSellerProducts", bestSellerProducts);
 
 		req.getRequestDispatcher("/views/web/home.jsp").forward(req, resp);
 	}

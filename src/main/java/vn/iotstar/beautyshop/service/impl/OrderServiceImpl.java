@@ -44,6 +44,16 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public List<Order> findAllPaginated(int offset, int limit) {
+		return orderDAO.findAllPaginated(offset, limit);
+	}
+
+	@Override
+	public int countAll() {
+		return orderDAO.countAll();
+	}
+
+	@Override
 	public void updateStatus(int orderId, String status) {
 		orderDAO.updateStatus(orderId, status);
 	}

@@ -22,6 +22,10 @@ public interface OrderService {
 	// ===== MANAGER =====
 	List<Order> findAll(); // manager xem danh sách đơn
 
+	List<Order> findAllPaginated(int offset, int limit);
+
+	int countAll();
+
 	void updateStatus(int orderId, String status); // manager đổi trạng thái
 
 	int countOrders();

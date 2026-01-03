@@ -1,0 +1,369 @@
+USE [master]
+GO
+/****** Object:  Database [BeautyShop]    Script Date: 31/12/2025 16:25:22 ******/
+CREATE DATABASE [BeautyShop]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'BeautyShop', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\BeautyShop.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'BeautyShop_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\BeautyShop_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [BeautyShop] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [BeautyShop].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [BeautyShop] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [BeautyShop] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [BeautyShop] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [BeautyShop] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [BeautyShop] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [BeautyShop] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [BeautyShop] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [BeautyShop] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [BeautyShop] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [BeautyShop] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [BeautyShop] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [BeautyShop] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [BeautyShop] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [BeautyShop] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [BeautyShop] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [BeautyShop] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [BeautyShop] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [BeautyShop] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [BeautyShop] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [BeautyShop] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [BeautyShop] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [BeautyShop] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [BeautyShop] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [BeautyShop] SET  MULTI_USER 
+GO
+ALTER DATABASE [BeautyShop] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [BeautyShop] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [BeautyShop] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [BeautyShop] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [BeautyShop] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [BeautyShop] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [BeautyShop] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [BeautyShop] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [BeautyShop]
+GO
+/****** Object:  Table [dbo].[categories]    Script Date: 31/12/2025 16:25:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[categories](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](255) NOT NULL,
+	[image] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[order_items]    Script Date: 31/12/2025 16:25:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[order_items](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[order_id] [int] NOT NULL,
+	[product_id] [int] NOT NULL,
+	[price] [float] NOT NULL,
+	[quantity] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[orders]    Script Date: 31/12/2025 16:25:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[orders](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[user_id] [int] NOT NULL,
+	[total_amount] [float] NOT NULL,
+	[status] [nvarchar](50) NOT NULL,
+	[created_at] [datetime] NULL,
+	[receiver_name] [nvarchar](100) NULL,
+	[phone] [nvarchar](20) NULL,
+	[address] [nvarchar](255) NULL,
+	[ward] [nvarchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[products]    Script Date: 31/12/2025 16:25:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[products](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](255) NOT NULL,
+	[price] [decimal](18, 2) NOT NULL,
+	[salePrice] [decimal](18, 2) NULL,
+	[image] [nvarchar](255) NULL,
+	[categoryId] [int] NOT NULL,
+	[description] [nvarchar](max) NULL,
+	[created_at] [datetime] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[users]    Script Date: 31/12/2025 16:25:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[users](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[email] [varchar](100) NOT NULL,
+	[phone] [varchar](20) NOT NULL,
+	[password] [varchar](255) NOT NULL,
+	[full_name] [nvarchar](100) NOT NULL,
+	[role] [varchar](20) NOT NULL,
+	[status] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[banners]    Script Date: 02/01/2026 20:12:00 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[banners](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[title] [nvarchar](255) NULL,
+	[description] [nvarchar](500) NULL,
+	[image] [nvarchar](255) NOT NULL,
+	[link] [nvarchar](500) NULL,
+	[display_order] [int] NOT NULL,
+	[is_active] [bit] NOT NULL,
+	[created_at] [datetime] NOT NULL,
+	[updated_at] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[banners] ADD DEFAULT (getdate()) FOR [created_at]
+GO
+ALTER TABLE [dbo].[banners] ADD DEFAULT ((1)) FOR [is_active]
+GO
+ALTER TABLE [dbo].[banners] ADD DEFAULT ((0)) FOR [display_order]
+GO
+SET IDENTITY_INSERT [dbo].[categories] ON 
+
+INSERT [dbo].[categories] ([id], [name], [image]) VALUES (1, N'Chăm sóc da mặt', N'categories/cat_010e79ea.jpg')
+INSERT [dbo].[categories] ([id], [name], [image]) VALUES (2, N'Trang điểm', N'categories/cat_b7a06517.png')
+INSERT [dbo].[categories] ([id], [name], [image]) VALUES (3, N'Chăm sóc cơ thể', N'categories/cat_3ec2c67c.jpg')
+INSERT [dbo].[categories] ([id], [name], [image]) VALUES (4, N'Phụ kiện/Dụng cụ làm đẹp', N'categories/cat_be48262d.jpg')
+INSERT [dbo].[categories] ([id], [name], [image]) VALUES (5, N'Dược mỹ phẩm', N'categories/cat_8ecbc853.webp')
+INSERT [dbo].[categories] ([id], [name], [image]) VALUES (6, N'Best Seller', N'cat_a84adccb.jpg')
+SET IDENTITY_INSERT [dbo].[categories] OFF
+GO
+SET IDENTITY_INSERT [dbo].[order_items] ON 
+
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (1, 1, 5, 150000, 2)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (2, 2, 6, 175000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (3, 3, 6, 175000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (4, 4, 6, 175000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (5, 5, 11, 260000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (6, 6, 1, 250000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (7, 7, 5, 160000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (8, 8, 6, 175000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (9, 9, 6, 175000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (10, 10, 1, 250000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (11, 11, 12, 250000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (12, 12, 1, 250000, 20)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (13, 13, 3, 280000, 30)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (14, 14, 9, 450000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (15, 15, 45, 345000, 10)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (16, 16, 40, 120000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (17, 17, 42, 475000, 10)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (18, 18, 44, 445000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (19, 18, 43, 525000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (20, 18, 39, 45000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (21, 19, 45, 345000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (22, 20, 41, 30000, 10)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (23, 21, 43, 525000, 10)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (24, 22, 43, 525000, 8)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (25, 23, 44, 445000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (26, 24, 44, 445000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (27, 24, 38, 290000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (28, 24, 43, 525000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (29, 24, 42, 475000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (30, 25, 36, 595000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (31, 25, 35, 49000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (32, 25, 34, 59000, 2)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (33, 26, 41, 30000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (34, 26, 32, 445000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (35, 27, 23, 230000, 3)
+SET IDENTITY_INSERT [dbo].[order_items] OFF
+GO
+SET IDENTITY_INSERT [dbo].[orders] ON 
+
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (1, 2, 300000, N'COMPLETED', CAST(N'2025-12-16T15:43:46.043' AS DateTime), NULL, NULL, NULL, NULL)
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (2, 2, 175000, N'COMPLETED', CAST(N'2025-12-19T12:28:14.970' AS DateTime), NULL, NULL, NULL, NULL)
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (3, 2, 175000, N'COMPLETED', CAST(N'2025-12-19T14:03:41.343' AS DateTime), NULL, NULL, NULL, NULL)
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (4, 2, 175000, N'DELIVERING', CAST(N'2025-12-19T14:11:50.947' AS DateTime), NULL, NULL, NULL, NULL)
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (5, 2, 260000, N'PENDING', CAST(N'2025-12-19T14:29:31.737' AS DateTime), NULL, NULL, NULL, NULL)
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (6, 2, 250000, N'COMPLETED', CAST(N'2025-12-19T15:37:24.020' AS DateTime), NULL, NULL, N'á', N'á')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (7, 2, 160000, N'PENDING', CAST(N'2025-12-19T16:21:34.300' AS DateTime), NULL, NULL, N'dsd', N'dsd')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (8, 2, 175000, N'COMPLETED', CAST(N'2025-12-19T16:29:18.247' AS DateTime), NULL, NULL, N'ưqw', N'qưq')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (9, 2, 175000, N'PENDING', CAST(N'2025-12-19T16:43:42.973' AS DateTime), NULL, NULL, N'âsas', N'asasasasaasadsvadfsvADFS')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (10, 2, 250000, N'WAITING_PICKUP', CAST(N'2025-12-19T16:55:42.657' AS DateTime), NULL, NULL, N'saedwqad', N'ádfasdas')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (11, 2, 250000, N'WAITING_PICKUP', CAST(N'2025-12-22T11:03:16.100' AS DateTime), N'Người dùng test', N'0900000002', N'41/3 Phú Hòa, xã Phú Khánh, huyện Thạnh Phú', N'Bến Tre')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (12, 2, 5000000, N'COMPLETED', CAST(N'2025-12-22T16:06:03.217' AS DateTime), N'Người dùng test', N'0900000002', N'SDSAD', N'ÁD')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (13, 13, 8400000, N'COMPLETED', CAST(N'2025-12-23T09:56:42.283' AS DateTime), N'Tạ Đặng Anh Dương', N'038811999', N'dsd', N'12')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (14, 13, 450000, N'PENDING', CAST(N'2025-12-23T10:17:23.750' AS DateTime), N'Tạ Đặng Anh Dương', N'038811999', N'zfsd', N'fsdfs')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (15, 2, 3450000, N'COMPLETED', CAST(N'2025-12-26T14:34:04.680' AS DateTime), N'Người dùng test', N'0900000002', N'672 đường Phan Văn Trị', N'P10, TP.HCM')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (16, 1, 120000, N'PENDING', CAST(N'2025-12-26T16:09:53.400' AS DateTime), N'Quản trị viên', N'0900000001', N'3wq3', N'1ewq')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (17, 2, 4750000, N'COMPLETED', CAST(N'2025-12-29T10:52:10.773' AS DateTime), N'Nguyễn Bảo', N'0900000002', N'Phan Xích Long', N'Phú Nhuận, TP.HCM')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (18, 2, 1015000, N'PENDING', CAST(N'2025-12-29T11:52:56.807' AS DateTime), N'Người dùng test', N'0900000002', N'672 Phan Văn Trị', N'Phường 10, Gò Vấp, TP.HCM')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (19, 2, 345000, N'COMPLETED', CAST(N'2025-12-29T14:18:58.953' AS DateTime), N'Người dùng test', N'0900000002', N'ư1', N'12')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (20, 1, 300000, N'COMPLETED', CAST(N'2025-12-30T16:47:25.277' AS DateTime), N'Quản trị viên', N'0900000001', N'01 Đ. Võ Văn Ngân', N'bt')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (21, 13, 5250000, N'PENDING', CAST(N'2025-12-31T13:57:51.330' AS DateTime), N'Tạ Đặng Anh Dương', N'038811999', N'622 Võ Văn Ngân', N'P.Linh Trung, TP. Thủ Đức')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (22, 13, 4200000, N'PENDING', CAST(N'2025-12-31T14:15:34.630' AS DateTime), N'Tạ Đặng Anh Dương', N'038811999', N'41/3 Phú Hòa, xã Phú Khánh, huyện Thạnh Phú', N'Bến Tre')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (23, 12, 445000, N'PENDING', CAST(N'2025-12-31T14:17:48.303' AS DateTime), N'Nguyễn Phát Khang', N'03131333', N'41/3 Phú Hòa, xã Phú Khánh, huyện Thạnh Phú', N'Bến Tre')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (24, 14, 1735000, N'COMPLETED', CAST(N'2025-12-31T15:19:17.927' AS DateTime), N'Nguyễn Bảo', N'0390 993 222', N'H.No. 27, Block A, Lajpat Nagar II', N'Campuchia')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (25, 14, 762000, N'COMPLETED', CAST(N'2025-12-31T15:21:49.457' AS DateTime), N'Nguyễn Bảo', N'0390 993 222', N'H.No. 27, Block A, Lajpat Nagar II', N'Campuchia')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (26, 14, 475000, N'COMPLETED', CAST(N'2025-12-31T15:22:26.843' AS DateTime), N'Nguyễn Bảo', N'0390 993 222', N'H.No. 27, Block A, Lajpat Nagar II', N'Campuchia')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (27, 14, 690000, N'COMPLETED', CAST(N'2025-12-31T15:23:36.180' AS DateTime), N'Nguyễn Bảo', N'0390 993 222', N'H.No. 27, Block A, Lajpat Nagar II', N'Campuchia')
+SET IDENTITY_INSERT [dbo].[orders] OFF
+GO
+SET IDENTITY_INSERT [dbo].[products] ON 
+
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (18, N'Mặt Nạ Dưỡng Da Foodaholic Ampel Treatment Mask', CAST(23000.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), N'products/prod_675e9516.webp', 1, N'Mặt nạ dưỡng da làm dịu, phục hồi da hư tổn, dưỡng trắng, với các thành phần như Niacinamide, Ceramide, AHA-BHA-PHA, Probiotics… an toàn cho mọi loại da', CAST(N'2025-12-23T13:51:12.593' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (19, N'Mặt Nạ Dưỡng Dịu Da VT Cosmetics Cica Reti-A Mask', CAST(30000.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), N'products/prod_affeb575.jpg', 1, N'Mặt nạ hỗ trợ phục hồi da và ngăn ngừa lão hóa với công nghệ retinol thế hệ mới, làm dịu da, se khít lỗ chân lông và tăng độ đàn hồi.', CAST(N'2025-12-23T13:51:49.463' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (20, N'Mặt Nạ BNBG Vita Genic Jelly Mask', CAST(25000.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), N'products/prod_9831fc74.jpg', 1, N'Mặt nạ dạng jelly mask cấp ẩm, phục hồi da với nhiều phiên bản (Whitening, Hydrating, Lifting, Relaxing) giúp nuôi dưỡng da sâu', CAST(N'2025-12-23T13:53:11.427' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (21, N'Son Kem Lì Vacosi Matte Ink Lip Cream', CAST(250000.00 AS Decimal(18, 2)), CAST(175000.00 AS Decimal(18, 2)), N'products/prod_588be022.webp', 2, N'Son kem lì mịn môi, màu sắc chuẩn, lâu trôi; sản phẩm đang giảm giá theo chương trình.', CAST(N'2025-12-23T13:53:54.937' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (22, N'Son Dưỡng Bóng Có Màu Catrice Glossin Glow Tinted Lip Oil', CAST(240000.00 AS Decimal(18, 2)), CAST(173000.00 AS Decimal(18, 2)), N'products/prod_4dfcad21.jpg', 2, N'Son dưỡng bóng môi có màu, dưỡng ẩm nhẹ nhàng, kèm theo quà tặng theo deal.', CAST(N'2025-12-23T13:54:22.967' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (23, N'Son Dưỡng Có Màu Dạng Thỏi Catrice Melt & Shine Juicy Lip Balm', CAST(230000.00 AS Decimal(18, 2)), CAST(160000.00 AS Decimal(18, 2)), N'products/prod_ccf689e0.jpg', 2, N'Son thỏi có màu nhẹ nhàng, dưỡng môi, được bán theo chương trình ưu đãi.', CAST(N'2025-12-23T13:54:56.030' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (24, N'Phấn Gội Khô Hương Thảo Aromatica Rosemary Dry Shampoo Powder', CAST(199000.00 AS Decimal(18, 2)), CAST(120000.00 AS Decimal(18, 2)), N'products/prod_a0ab28db.jpg', 3, N'Phấn gội khô tạo cảm giác sạch tóc nhanh, hương rosemary dễ chịu.', CAST(N'2025-12-23T13:55:29.750' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (25, N'Bông Đắp Toner One Day’s You Help Me! Honey-C Pad', CAST(120000.00 AS Decimal(18, 2)), CAST(70000.00 AS Decimal(18, 2)), N'products/prod_df508591.jpg', 1, N'Bông đắp chứa Honey-C giúp làm sáng da và dưỡng ẩm.', CAST(N'2025-12-23T13:56:10.700' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (26, N'Tinh Chất Dưỡng Phục Hồi Làn Da Hư Tổn Cao Cấp To Do List Youth', CAST(290000.00 AS Decimal(18, 2)), CAST(240000.00 AS Decimal(18, 2)), N'products/prod_bf101966.webp', 1, N'Serum phục hồi da hư tổn, tái tạo tế bào và chống oxy hóa với Bakuchiol và chiết xuất tự nhiên.', CAST(N'2025-12-23T13:56:53.100' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (27, N'SVR Sebiaclear Serum', CAST(715000.00 AS Decimal(18, 2)), CAST(640000.00 AS Decimal(18, 2)), N'products/prod_d6f337ce.jpg', 5, N'Serum hỗ trợ giảm mụn, giảm thâm, kiểm soát dầu cho da mụn.', CAST(N'2025-12-23T13:58:08.390' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (28, N'Mary & May Retinol 0.1% Bakuchiol Cica Serum', CAST(450000.00 AS Decimal(18, 2)), CAST(349000.00 AS Decimal(18, 2)), N'products/prod_76d6eb8b.png', 5, N'Tinh chất chứa Retinol + Bakuchiol + Cica giúp chống lão hoá, làm mịn & phục hồi da.', CAST(N'2025-12-23T13:58:44.763' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (29, N'Jumiso Niacinamide 10% Serum', CAST(420000.00 AS Decimal(18, 2)), CAST(276000.00 AS Decimal(18, 2)), N'products/prod_2e01663f.webp', 1, N'Serum kiềm dầu, làm sáng & đều màu da.', CAST(N'2025-12-23T13:59:09.880' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (30, N'Torriden Dive In Hyaluronic Acid Serum + Cream (Set)', CAST(349000.00 AS Decimal(18, 2)), CAST(275000.00 AS Decimal(18, 2)), N'products/prod_21e9d1cc.jpg', 1, N'Set serum + cream cấp ẩm phục hồi sâu cho da khô/nhạy cảm.', CAST(N'2025-12-23T13:59:35.647' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (31, N'Bioverse B351 Acne Clear Up Serum', CAST(225000.00 AS Decimal(18, 2)), CAST(189000.00 AS Decimal(18, 2)), N'products/prod_d1a82c6c.jpg', 1, N'Serum hỗ trợ giảm thâm mụn & làm dịu da.', CAST(N'2025-12-23T13:59:56.177' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (32, N'Some By Mi AHA-BHA-PHA 30 Days Miracle Serum', CAST(445000.00 AS Decimal(18, 2)), CAST(289000.00 AS Decimal(18, 2)), N'products/prod_6b528025.jpg', 1, N'Serum hỗ trợ giảm mụn toàn diện, làm sạch lỗ chân lông & phục hồi da tổn thương.', CAST(N'2025-12-23T14:00:22.477' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (33, N'Glorie Soap Rửa Cọ Trang Điểm', CAST(219000.00 AS Decimal(18, 2)), CAST(169000.00 AS Decimal(18, 2)), N'products/prod_7bcf3c7b.jpg', 4, N'Xà bông rửa cọ giúp làm sạch cọ trang điểm nhanh, giữ cọ thơm sạch.', CAST(N'2025-12-23T14:01:42.990' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (34, N'Giỏ Giặt Cọ Đa Năng Glorie 2-in-1', CAST(59000.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), N'products/prod_61321462.jpg', 4, N'Giỏ giặt cọ đa năng để rửa nhiều cọ cùng lúc, dùng kèm xà bông rửa cọ.', CAST(N'2025-12-23T14:02:10.047' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (35, N'Nhíp Gắn Mi Mlen Diary', CAST(49000.00 AS Decimal(18, 2)), CAST(39000.00 AS Decimal(18, 2)), N'products/prod_297d3e66.jpg', 4, N'Nhíp chuyên dụng để gắn mi hoặc xử lý lông mày.', CAST(N'2025-12-23T14:02:29.813' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (36, N'Set Cọ Jessup Makeup Lover Collection 7 Cây', CAST(595000.00 AS Decimal(18, 2)), CAST(0.00 AS Decimal(18, 2)), N'products/prod_1cb653ce.jpg', 4, N'Set gồm 7 cây cọ trang điểm cơ bản cho mặt và mắt.', CAST(N'2025-12-23T14:03:04.820' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (37, N'Cindy Bloom – Sữa Tắm Nước Hoa Cindy Bloom', CAST(179000.00 AS Decimal(18, 2)), CAST(139000.00 AS Decimal(18, 2)), N'products/prod_c0f7dfcb.webp', 3, N'Sữa tắm hương nước hoa, làm sạch & dưỡng ẩm nhẹ.', CAST(N'2025-12-23T14:04:12.473' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (38, N'Tesori D’Oriente – Sữa Tắm Nước Hoa Hy Lạp Byzantium Bath Cream', CAST(290000.00 AS Decimal(18, 2)), CAST(236000.00 AS Decimal(18, 2)), N'products/prod_b36f55c1.webp', 3, N'Sữa tắm hương nước hoa Oriental, tạo bọt sạch, thơm lâu.', CAST(N'2025-12-23T14:04:35.307' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (39, N'A Bonne Spa Milk Salt – Muối Tắm Tẩy Tế Bào Chết', CAST(45000.00 AS Decimal(18, 2)), CAST(19000.00 AS Decimal(18, 2)), N'products/prod_65def7fc.webp', 3, N'Kem tắm dưỡng trắng da toàn thân, mịn da.', CAST(N'2025-12-23T14:05:00.880' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (40, N'Khăn Ướt Vệ Sinh Cho Nam Befou Cleansing Wipes For Men', CAST(120000.00 AS Decimal(18, 2)), CAST(89000.00 AS Decimal(18, 2)), N'products/prod_9572b794.jpg', 3, N'Khăn ướt vệ sinh dành cho nam, làm sạch nhanh & tiện lợi.', CAST(N'2025-12-23T14:05:22.063' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (41, N'Găng Tay Tẩy Tế Bào Chết Body', CAST(30000.00 AS Decimal(18, 2)), CAST(15000.00 AS Decimal(18, 2)), N'products/prod_805cb70d.jpg', 3, N'Găng tay chuyên dụng giúp tẩy tế bào chết toàn thân hiệu quả.', CAST(N'2025-12-23T14:05:43.527' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (42, N'La Roche-Posay Effaclar Purifying Foaming Gel', CAST(475000.00 AS Decimal(18, 2)), CAST(399000.00 AS Decimal(18, 2)), N'products/prod_e00f92dc.jpg', 5, N'Làm sạch dầu thừa, hỗ trợ giảm mụn, không chứa xà phòng', CAST(N'2025-12-23T14:06:57.070' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (43, N'La Roche-Posay Effaclar Duo (+)', CAST(525000.00 AS Decimal(18, 2)), CAST(449000.00 AS Decimal(18, 2)), N'products/prod_ac80f095.jpg', 5, N'Giảm mụn viêm, mụn ẩn, hạn chế thâm sau mụn', CAST(N'2025-12-23T14:07:18.813' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (44, N'Bioderma Sébium Pore Refiner', CAST(445000.00 AS Decimal(18, 2)), CAST(365000.00 AS Decimal(18, 2)), N'products/prod_ffe79143.webp', 5, N'Kiểm soát dầu, se khít lỗ chân lông, dùng được như kem lót', CAST(N'2025-12-23T14:07:36.137' AS DateTime))
+INSERT [dbo].[products] ([id], [name], [price], [salePrice], [image], [categoryId], [description], [created_at]) VALUES (45, N'Eucerin ProACNE Cleansing Gel', CAST(345000.00 AS Decimal(18, 2)), CAST(290000.00 AS Decimal(18, 2)), N'products/prod_e3463a1b.jpg', 5, N'Làm sạch sâu, không xà phòng, phù hợp da mụn nhạy cảm', CAST(N'2025-12-23T14:08:04.333' AS DateTime))
+SET IDENTITY_INSERT [dbo].[products] OFF
+GO
+SET IDENTITY_INSERT [dbo].[users] ON 
+
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (1, N'admin@gmail.com', N'0900000001', N'123', N'Quản trị viên', N'ADMIN', 1)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (2, N'user@gmail.com', N'0900000002', N'123', N'Người dùng test', N'USER', 1)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (9, N'test05@gmail.com', N'0362389623', N'123', N'Nguyễn Quốc Bảo', N'USER', 1)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (10, N'24tx810057@student.hcmute.edu.vn', N'12', N'ueq', N'1212', N'USER', 1)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (11, N'anhungxadieu@gmail.com', N'03222118883', N'123', N'Nguyễn Ngọc Thiện', N'USER', 1)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (12, N'phatkhang@gmail.com', N'03131333', N'123', N'Nguyễn Phát Khang', N'USER', 1)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (13, N'duong@gmail.com', N'038811999', N'123', N'Tạ Đặng Anh Dương', N'USER', 1)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (14, N'bao@gmail.com', N'0390 993 222', N'123', N'Nguyễn Bảo', N'USER', 1)
+SET IDENTITY_INSERT [dbo].[users] OFF
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__users__AB6E6164BC1B132F]    Script Date: 31/12/2025 16:25:22 ******/
+ALTER TABLE [dbo].[users] ADD UNIQUE NONCLUSTERED 
+(
+	[email] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [UQ__users__B43B145F0F0813D8]    Script Date: 31/12/2025 16:25:22 ******/
+ALTER TABLE [dbo].[users] ADD UNIQUE NONCLUSTERED 
+(
+	[phone] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[orders] ADD  DEFAULT (getdate()) FOR [created_at]
+GO
+ALTER TABLE [dbo].[products] ADD  DEFAULT (getdate()) FOR [created_at]
+GO
+ALTER TABLE [dbo].[users] ADD  DEFAULT ('USER') FOR [role]
+GO
+ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [status]
+GO
+ALTER TABLE [dbo].[order_items]  WITH CHECK ADD  CONSTRAINT [FK_order_items_orders] FOREIGN KEY([order_id])
+REFERENCES [dbo].[orders] ([id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[order_items] CHECK CONSTRAINT [FK_order_items_orders]
+GO
+ALTER TABLE [dbo].[orders]  WITH CHECK ADD  CONSTRAINT [FK_orders_users] FOREIGN KEY([user_id])
+REFERENCES [dbo].[users] ([id])
+GO
+ALTER TABLE [dbo].[orders] CHECK CONSTRAINT [FK_orders_users]
+GO
+ALTER TABLE [dbo].[products]  WITH CHECK ADD FOREIGN KEY([categoryId])
+REFERENCES [dbo].[categories] ([id])
+GO
+USE [master]
+GO
+ALTER DATABASE [BeautyShop] SET  READ_WRITE 
+GO

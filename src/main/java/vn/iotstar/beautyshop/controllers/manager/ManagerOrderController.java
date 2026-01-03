@@ -13,14 +13,14 @@ import vn.iotstar.beautyshop.service.OrderService;
 import vn.iotstar.beautyshop.service.impl.OrderServiceImpl;
 
 @WebServlet(urlPatterns = {
-    "/manager/orders",
-    "/manager/order-detail",
-    "/manager/order/update-status"
+        "/manager/orders",
+        "/manager/order-detail",
+        "/manager/order/update-status"
 })
 public class ManagerOrderController extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-	private OrderService orderService;
+    private static final long serialVersionUID = 1L;
+    private OrderService orderService;
 
     @Override
     public void init() {
@@ -51,13 +51,40 @@ public class ManagerOrderController extends HttpServlet {
         }
     }
 
+    private static final int PAGE_SIZE = 10;
+
     // =========================
 
     private void listOrders(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        List<Order> orders = orderService.findAll();
+        // Pagination
+        int page = 1;
+        try {
+            String pageStr = req.getParameter("page");
+            if (pageStr != null) {
+                page = Integer.parseInt(pageStr);
+                if (page < 1)
+                    page = 1;
+            }
+        } catch (NumberFormatException e) {
+            page = 1;
+        }
+
+        int totalItems = orderService.countAll();
+        int totalPages = (int) Math.ceil((double) totalItems / PAGE_SIZE);
+        if (page > totalPages && totalPages > 0)
+            page = totalPages;
+
+        int offset = (page - 1) * PAGE_SIZE;
+        List<Order> orders = orderService.findAllPaginated(offset, PAGE_SIZE);
+
         req.setAttribute("orders", orders);
+        req.setAttribute("currentPage", page);
+        req.setAttribute("totalPages", totalPages);
+        req.setAttribute("totalItems", totalItems);
+        req.setAttribute("baseUrl", req.getContextPath() + "/manager/orders");
+
         req.getRequestDispatcher("/views/manager/order/list.jsp").forward(req, resp);
     }
 

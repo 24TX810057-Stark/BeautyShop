@@ -181,12 +181,12 @@ public class ProductDAOImpl implements ProductDAO {
 
 	private String buildOrderBy(String sort) {
 		switch (sort) {
-		case "price_asc":
-			return "price ASC";
-		case "price_desc":
-			return "price DESC";
-		default:
-			return "created_at DESC";
+			case "price_asc":
+				return "price ASC";
+			case "price_desc":
+				return "price DESC";
+			default:
+				return "created_at DESC";
 		}
 	}
 
@@ -198,6 +198,51 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public List<Product> findAll() {
 		return findAll("new");
+	}
+
+	@Override
+	public List<Product> findAllPaginated(int offset, int limit) {
+		List<Product> list = new ArrayList<>();
+		String sql = "SELECT * FROM Products ORDER BY created_at ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, offset);
+			ps.setInt(2, limit);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Product p = new Product(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"),
+						rs.getDouble("salePrice"), rs.getString("image"), rs.getInt("categoryId"),
+						rs.getString("description"), rs.getTimestamp("created_at").toLocalDateTime());
+				list.add(p);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public int count() {
+		String sql = "SELECT COUNT(*) FROM Products";
+
+		try (Connection con = DBConnect.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
 	}
 
 	@Override

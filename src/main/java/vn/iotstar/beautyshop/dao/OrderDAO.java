@@ -22,6 +22,8 @@ public interface OrderDAO {
 
 	List<Order> findAll();
 
+	List<Order> findAllPaginated(int offset, int limit);
+
 	void updateStatus(int orderId, String status);
 
 	double sumRevenue();

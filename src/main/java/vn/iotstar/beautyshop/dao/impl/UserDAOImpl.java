@@ -118,6 +118,47 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
+	public List<User> findAllPaginated(int offset, int limit) {
+		List<User> list = new ArrayList<>();
+		String sql = "SELECT * FROM users ORDER BY id ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, offset);
+			ps.setInt(2, limit);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				list.add(mapUser(rs));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public int count() {
+		String sql = "SELECT COUNT(*) FROM users";
+
+		try (Connection conn = DBConnect.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ResultSet rs = ps.executeQuery()) {
+
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return 0;
+	}
+
+	@Override
 	public boolean insert(User user) {
 		String sql = "INSERT INTO users (email,phone, password, full_name, role, status) VALUES (?, ?, ?, ?, ?, ?)";
 

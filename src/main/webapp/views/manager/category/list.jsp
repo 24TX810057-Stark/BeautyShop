@@ -41,7 +41,7 @@
                                 </h6>
                             </div>
                             <div class="col-auto">
-                                <span class="badge bg-primary">${categories.size()} danh mục</span>
+                                <span class="badge bg-primary">${totalItems} danh mục</span>
                             </div>
                         </div>
                     </div>
@@ -109,6 +109,11 @@
                             </table>
                         </div>
                     </div>
+
+                    <%-- Pagination --%>
+                        <div class="card-footer bg-white">
+                            <jsp:include page="/common/manager/pagination.jsp" />
+                        </div>
                 </div>
             </div>
 

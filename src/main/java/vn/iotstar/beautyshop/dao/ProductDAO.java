@@ -15,6 +15,10 @@ public interface ProductDAO {
 
 	List<Product> findAll();
 
+	List<Product> findAllPaginated(int offset, int limit);
+
+	int count();
+
 	void insert(Product product);
 
 	void update(Product product);

@@ -194,7 +194,7 @@ public class OrderDAOImpl implements OrderDAO {
 		return order;
 	}
 
-//============================================================
+	// ============================================================
 	@Override
 	public List<Order> findAll() {
 		List<Order> list = new ArrayList<>();
@@ -204,6 +204,38 @@ public class OrderDAOImpl implements OrderDAO {
 		try (Connection conn = DBConnect.getConnection();
 				PreparedStatement ps = conn.prepareStatement(sql);
 				ResultSet rs = ps.executeQuery()) {
+
+			while (rs.next()) {
+				Order o = new Order();
+				o.setId(rs.getInt("id"));
+				o.setUserId(rs.getInt("user_id"));
+				o.setTotalAmount(rs.getDouble("total_amount"));
+				o.setStatus(rs.getString("status"));
+				o.setCreatedAt(rs.getTimestamp("created_at"));
+				o.setReceiverName(rs.getString("receiver_name"));
+				o.setPhone(rs.getString("phone"));
+				o.setAddress(rs.getString("address"));
+				o.setWard(rs.getString("ward"));
+
+				list.add(o);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Order> findAllPaginated(int offset, int limit) {
+		List<Order> list = new ArrayList<>();
+		String sql = "SELECT * FROM orders ORDER BY created_at ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+		try (Connection conn = DBConnect.getConnection();
+				PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, offset);
+			ps.setInt(2, limit);
+			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Order o = new Order();

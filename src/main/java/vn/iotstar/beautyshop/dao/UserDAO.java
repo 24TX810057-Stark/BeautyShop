@@ -15,6 +15,10 @@ public interface UserDAO {
 
 	List<User> findAll();
 
+	List<User> findAllPaginated(int offset, int limit);
+
+	int count();
+
 	boolean insert(User user);
 
 	boolean update(User user);

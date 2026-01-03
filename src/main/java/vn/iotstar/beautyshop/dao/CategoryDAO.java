@@ -7,6 +7,10 @@ import vn.iotstar.beautyshop.model.Category;
 public interface CategoryDAO {
 	List<Category> findAll();
 
+	List<Category> findAll(int offset, int limit);
+
+	int count();
+
 	Category findById(int id);
 
 	void insert(Category category);
