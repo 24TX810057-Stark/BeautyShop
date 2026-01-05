@@ -106,8 +106,6 @@ public class ManagerOrderController extends HttpServlet {
 
         orderService.updateStatus(orderId, status);
 
-        req.getSession().setAttribute("message", "Cập nhật trạng thái đơn hàng #" + orderId + " thành công!");
-        req.getSession().setAttribute("messageType", "success");
-        resp.sendRedirect(req.getContextPath() + "/manager/orders");
+        resp.sendRedirect(req.getContextPath() + "/manager/order-detail?id=" + orderId);
     }
 }
