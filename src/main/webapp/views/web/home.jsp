@@ -194,40 +194,42 @@
 					<div class="row">
 						<c:forEach var="prod" items="${flashSaleProducts}">
 							<div class="col-6 col-md-4 col-lg-3 mb-4">
-								<div class="product-card">
-									<div class="product-card__thumb">
-										<c:if test="${prod.salePrice > 0 && prod.price > 0}">
-											<span class="product-card__badge"> -
-												<fmt:formatNumber
-													value="${(prod.price - prod.salePrice) / prod.price * 100}"
-													maxFractionDigits="0" />%
+								<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}">
+									<div class="product-card">
+										<div class="product-card__thumb">
+											<c:if test="${prod.salePrice > 0 && prod.price > 0}">
+												<span class="product-card__badge"> -
+													<fmt:formatNumber
+														value="${(prod.price - prod.salePrice) / prod.price * 100}"
+														maxFractionDigits="0" />%
+												</span>
+											</c:if>
+											<c:choose>
+												<c:when test="${not empty prod.image}">
+													<img src="${pageContext.request.contextPath}/uploads/${prod.image}"
+														alt="${prod.name}">
+												</c:when>
+												<c:otherwise>
+													<div class="product-card__placeholder">
+														<i class="bi bi-image"></i>
+													</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+										<h4 class="product-card__name">${prod.name}</h4>
+										<div class="product-card__price">
+											<span class="product-card__price-current">
+												<fmt:formatNumber value="${prod.salePrice}" type="number" />đ
+											</span> <span class="product-card__price-old">
+												<fmt:formatNumber value="${prod.price}" type="number" />đ
 											</span>
-										</c:if>
-										<c:choose>
-											<c:when test="${not empty prod.image}">
-												<img src="${pageContext.request.contextPath}/uploads/${prod.image}"
-													alt="${prod.name}">
-											</c:when>
-											<c:otherwise>
-												<div class="product-card__placeholder">
-													<i class="bi bi-image"></i>
-												</div>
-											</c:otherwise>
-										</c:choose>
+										</div>
+										<div class="product-card__buy">
+											<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}"
+												class="btn-buy">Xem chi tiết</a>
+										</div>
 									</div>
-									<h4 class="product-card__name">${prod.name}</h4>
-									<div class="product-card__price">
-										<span class="product-card__price-current">
-											<fmt:formatNumber value="${prod.salePrice}" type="number" />đ
-										</span> <span class="product-card__price-old">
-											<fmt:formatNumber value="${prod.price}" type="number" />đ
-										</span>
-									</div>
-									<div class="product-card__buy">
-										<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}"
-											class="btn-buy">Xem chi tiết</a>
-									</div>
-								</div>
+								</a>
 							</div>
 						</c:forEach>
 					</div>
@@ -254,46 +256,48 @@
 					<div class="row">
 						<c:forEach var="prod" items="${featuredProducts}">
 							<div class="col-6 col-md-4 col-lg-3 mb-4">
-								<div class="product-card">
-									<div class="product-card__thumb">
-										<c:if test="${prod.salePrice > 0}">
-											<span class="product-card__badge">Sale</span>
-										</c:if>
-										<c:choose>
-											<c:when test="${not empty prod.image}">
-												<img src="${pageContext.request.contextPath}/uploads/${prod.image}"
-													alt="${prod.name}">
-											</c:when>
-											<c:otherwise>
-												<div class="product-card__placeholder">
-													<i class="bi bi-image"></i>
-												</div>
-											</c:otherwise>
-										</c:choose>
+								<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}">
+									<div class="product-card">
+										<div class="product-card__thumb">
+											<c:if test="${prod.salePrice > 0}">
+												<span class="product-card__badge">Sale</span>
+											</c:if>
+											<c:choose>
+												<c:when test="${not empty prod.image}">
+													<img src="${pageContext.request.contextPath}/uploads/${prod.image}"
+														alt="${prod.name}">
+												</c:when>
+												<c:otherwise>
+													<div class="product-card__placeholder">
+														<i class="bi bi-image"></i>
+													</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+										<h4 class="product-card__name">${prod.name}</h4>
+										<div class="product-card__price">
+											<c:choose>
+												<c:when test="${prod.salePrice > 0}">
+													<span class="product-card__price-current">
+														<fmt:formatNumber value="${prod.salePrice}" type="number" />đ
+													</span>
+													<span class="product-card__price-old">
+														<fmt:formatNumber value="${prod.price}" type="number" />đ
+													</span>
+												</c:when>
+												<c:otherwise>
+													<span class="product-card__price-current">
+														<fmt:formatNumber value="${prod.price}" type="number" />đ
+													</span>
+												</c:otherwise>
+											</c:choose>
+										</div>
+										<div class="product-card__buy">
+											<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}"
+												class="btn-buy">Mua ngay</a>
+										</div>
 									</div>
-									<h4 class="product-card__name">${prod.name}</h4>
-									<div class="product-card__price">
-										<c:choose>
-											<c:when test="${prod.salePrice > 0}">
-												<span class="product-card__price-current">
-													<fmt:formatNumber value="${prod.salePrice}" type="number" />đ
-												</span>
-												<span class="product-card__price-old">
-													<fmt:formatNumber value="${prod.price}" type="number" />đ
-												</span>
-											</c:when>
-											<c:otherwise>
-												<span class="product-card__price-current">
-													<fmt:formatNumber value="${prod.price}" type="number" />đ
-												</span>
-											</c:otherwise>
-										</c:choose>
-									</div>
-									<div class="product-card__buy">
-										<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}"
-											class="btn-buy">Mua ngay</a>
-									</div>
-								</div>
+								</a>
 							</div>
 						</c:forEach>
 					</div>
@@ -320,41 +324,43 @@
 					<div class="row">
 						<c:forEach var="prod" items="${newProducts}">
 							<div class="col-6 col-md-4 col-lg-3 mb-4">
-								<div class="product-card product-card--new">
-									<div class="product-card__thumb">
-										<span class="product-card__badge product-card__badge--new">NEW</span>
-										<c:choose>
-											<c:when test="${not empty prod.image}">
-												<img src="${pageContext.request.contextPath}/uploads/${prod.image}"
-													alt="${prod.name}">
-											</c:when>
-											<c:otherwise>
-												<div class="product-card__placeholder">
-													<i class="bi bi-image"></i>
-												</div>
-											</c:otherwise>
-										</c:choose>
+								<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}">
+									<div class="product-card product-card--new">
+										<div class="product-card__thumb">
+											<span class="product-card__badge product-card__badge--new">NEW</span>
+											<c:choose>
+												<c:when test="${not empty prod.image}">
+													<img src="${pageContext.request.contextPath}/uploads/${prod.image}"
+														alt="${prod.name}">
+												</c:when>
+												<c:otherwise>
+													<div class="product-card__placeholder">
+														<i class="bi bi-image"></i>
+													</div>
+												</c:otherwise>
+											</c:choose>
+										</div>
+										<h4 class="product-card__name">${prod.name}</h4>
+										<div class="product-card__price">
+											<c:choose>
+												<c:when test="${prod.salePrice > 0}">
+													<span class="product-card__price-current">
+														<fmt:formatNumber value="${prod.salePrice}" type="number" />đ
+													</span>
+												</c:when>
+												<c:otherwise>
+													<span class="product-card__price-current">
+														<fmt:formatNumber value="${prod.price}" type="number" />đ
+													</span>
+												</c:otherwise>
+											</c:choose>
+										</div>
+										<div class="product-card__buy">
+											<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}"
+												class="btn-buy">Xem chi tiết</a>
+										</div>
 									</div>
-									<h4 class="product-card__name">${prod.name}</h4>
-									<div class="product-card__price">
-										<c:choose>
-											<c:when test="${prod.salePrice > 0}">
-												<span class="product-card__price-current">
-													<fmt:formatNumber value="${prod.salePrice}" type="number" />đ
-												</span>
-											</c:when>
-											<c:otherwise>
-												<span class="product-card__price-current">
-													<fmt:formatNumber value="${prod.price}" type="number" />đ
-												</span>
-											</c:otherwise>
-										</c:choose>
-									</div>
-									<div class="product-card__buy">
-										<a href="${pageContext.request.contextPath}/product-detail?id=${prod.id}"
-											class="btn-buy">Xem chi tiết</a>
-									</div>
-								</div>
+								</a>
 							</div>
 						</c:forEach>
 					</div>

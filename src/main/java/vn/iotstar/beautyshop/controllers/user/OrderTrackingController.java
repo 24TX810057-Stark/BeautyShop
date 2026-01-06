@@ -1,6 +1,7 @@
 package vn.iotstar.beautyshop.controllers.user;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.servlet.ServletException;
@@ -21,28 +22,46 @@ public class OrderTrackingController extends HttpServlet {
 	private OrderService orderService = new OrderServiceImpl();
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+	        throws ServletException, IOException {
 
-		HttpSession session = req.getSession(false);
+	    HttpSession session = req.getSession(false);
 
-		// CHƯA LOGIN HOẶC CHƯA CÓ SESSION
-		if (session == null) {
-			resp.sendRedirect(req.getContextPath() + "/login");
-			return;
-		}
+	    if (session == null || session.getAttribute("user") == null) {
+	        resp.sendRedirect(req.getContextPath() + "/login");
+	        return;
+	    }
 
-		User user = (User) session.getAttribute("user");
+	    User user = (User) session.getAttribute("user");
 
-		if (user == null) {
-			resp.sendRedirect(req.getContextPath() + "/login");
-			return;
-		}
+	    // ===== LẤY DANH SÁCH ĐƠN =====
+	    List<Order> orders = orderService.findByUserId(user.getId());
 
-		// LẤY ĐƠN THEO USER
-		List<Order> orders = orderService.findByUserId(user.getId());
+	    // ===== PHÂN TRANG =====
+	    int page = 1;
+	    int size = 5; // 5 đơn / trang
 
-		req.setAttribute("orders", orders);
-		req.getRequestDispatcher("/views/web/order-tracking.jsp").forward(req, resp);
+	    String p = req.getParameter("page");
+	    if (p != null && !p.isEmpty()) {
+	        page = Integer.parseInt(p);
+	    }
+
+	    int totalItems = orders.size();
+	    int totalPages = (int) Math.ceil((double) totalItems / size);
+
+	    int fromIndex = (page - 1) * size;
+	    int toIndex = Math.min(fromIndex + size, totalItems);
+
+	    List<Order> orderPage =
+	            totalItems == 0 ? new ArrayList<>() : orders.subList(fromIndex, toIndex);
+
+	    // ===== SET ATTRIBUTE =====
+	    req.setAttribute("orders", orderPage);
+	    req.setAttribute("currentPage", page);
+	    req.setAttribute("totalPages", totalPages);
+
+	    req.getRequestDispatcher("/views/web/order-tracking.jsp").forward(req, resp);
 	}
+
 
 }

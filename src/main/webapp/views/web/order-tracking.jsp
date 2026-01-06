@@ -74,6 +74,37 @@
 					</div>
 				</a>
 			</c:forEach>
+			
+			<!-- Phân trang -->
+			<nav class="mt-3">
+			    <ul class="pagination justify-content-center">
+			
+			        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+			            <a class="page-link"
+			               href="${pageContext.request.contextPath}/order-tracking?page=${currentPage - 1}">
+			                &laquo;
+			            </a>
+			        </li>
+			
+			        <c:forEach begin="1" end="${totalPages}" var="i">
+			            <li class="page-item ${i == currentPage ? 'active' : ''}">
+			                <a class="page-link"
+			                   href="${pageContext.request.contextPath}/order-tracking?page=${i}">
+			                    ${i}
+			                </a>
+			            </li>
+			        </c:forEach>
+			
+			        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+			            <a class="page-link"
+			               href="${pageContext.request.contextPath}/order-tracking?page=${currentPage + 1}">
+			                &raquo;
+			            </a>
+			        </li>
+			
+			    </ul>
+			</nav>
+			
 
 		</div>
 

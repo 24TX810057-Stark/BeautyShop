@@ -55,24 +55,8 @@
 			<i class="bi bi-list fs-3"></i>
 		</button>
 
-		<!-- Dropdown Danh mục (GIỮ NGUYÊN) -->
-		<div class="category-dropdown">
-			<div class="category-btn">
-				<i class="bi bi-list"></i> DANH MỤC SẢN PHẨM
-			</div>
-
-			<ul class="category-menu">
-				<li><a href="#">CHĂM SÓC DA MẶT</a></li>
-				<li><a href="#">TRANG ĐIỂM</a></li>
-				<li><a href="#">CHĂM SÓC CƠ THỂ</a></li>
-				<li><a href="#">PHỤ KIỆN/DỤNG CỤ LÀM ĐẸP</a></li>
-				<li><a href="#">DƯỢC MỸ PHẨM</a></li>
-				<li><a href="#">BEST SELLER</a></li>
-			</ul>
-		</div>
-
 		<!-- Menu desktop (CHỈ DI CHUYỂN VỊ TRÍ) -->
-		<ul class="menu-list d-none d-lg-flex">
+		<ul class="menu-list d-none d-lg-flex justify-content-lg-center">
 			<li><a
 				href="${pageContext.request.contextPath}/product?type=new">SẢN
 					PHẨM MỚI</a></li>
@@ -83,7 +67,6 @@
 					TỨC</a></li>
 			<li><a href="${pageContext.request.contextPath}/order-tracking">TRA
 					CỨU ĐƠN HÀNG</a></li>
-			<li><a href="#">BEAUTY & COSMETICS</a></li>
 		</ul>
 	</div>
 

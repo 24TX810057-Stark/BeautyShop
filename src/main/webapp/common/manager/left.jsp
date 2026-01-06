@@ -27,8 +27,4 @@
             <a href="${pageContext.request.contextPath}/manager/users">
                 <i class="bi bi-people"></i> Người dùng
             </a>
-
-            <a href="${pageContext.request.contextPath}/manager/settings">
-                <i class="bi bi-gear"></i> Cài đặt
-            </a>
         </div>
