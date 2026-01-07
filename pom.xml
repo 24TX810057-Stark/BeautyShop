@@ -16,13 +16,18 @@
 	</properties>-->
 
 	<dependencies>
-	<!--Xuất data -->
+		<!--Xuất data -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>5.2.5</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.4</version>
+		</dependency>
 
 		<!-- Sitemesh -->
 		<dependency>

@@ -7,8 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import vn.iotstar.beautyshop.model.User;
+import vn.iotstar.beautyshop.security.PasswordUtil;
 import vn.iotstar.beautyshop.service.UserService;
 import vn.iotstar.beautyshop.service.impl.UserServiceImpl;
 
@@ -46,8 +46,8 @@ public class RegisterController extends HttpServlet {
 		// Tạo user
 		User user = new User();
 		user.setEmail(email);
-		user.setPhone(phone);   
-		user.setPassword(password);
+		user.setPhone(phone);
+		user.setPassword(PasswordUtil.hash(password));
 		user.setFullName(fullName);
 		user.setRole("USER");
 		user.setStatus(1);

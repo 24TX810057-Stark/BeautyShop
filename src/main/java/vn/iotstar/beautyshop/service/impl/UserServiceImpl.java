@@ -3,6 +3,7 @@ package vn.iotstar.beautyshop.service.impl;
 import vn.iotstar.beautyshop.dao.UserDAO;
 import vn.iotstar.beautyshop.dao.impl.UserDAOImpl;
 import vn.iotstar.beautyshop.model.User;
+import vn.iotstar.beautyshop.security.PasswordUtil;
 import vn.iotstar.beautyshop.service.UserService;
 
 public class UserServiceImpl implements UserService {
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
 		if (user == null)
 			return null;
 
-		if (!password.equals(user.getPassword()))
+		if (!PasswordUtil.verify(password, user.getPassword()))
 			return null;
 
 		if (user.getStatus() == 0)
