@@ -148,8 +148,8 @@ public class OrderDAOImpl implements OrderDAO {
 				           p.name,
 				           p.image
 				    FROM orders o
-				    JOIN order_items oi ON o.id = oi.order_id
-				    JOIN products p ON oi.product_id = p.id
+				    LEFT JOIN order_items oi ON o.id = oi.order_id
+				    LEFT JOIN products p ON oi.product_id = p.id
 				    WHERE o.id = ? AND o.user_id = ?
 				""";
 
@@ -226,17 +226,24 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public List<Order> findAllPaginated(int offset, int limit) {
+	public List<Order> findByUserIdPaginated(int userId, int offset, int limit) {
 		List<Order> list = new ArrayList<>();
-		String sql = "SELECT * FROM orders ORDER BY created_at ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-		try (Connection conn = DBConnect.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql)) {
+		String sql = """
+				    SELECT *
+				    FROM orders
+				    WHERE user_id = ?
+				    ORDER BY created_at DESC
+				    OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+				""";
 
-			ps.setInt(1, offset);
-			ps.setInt(2, limit);
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, userId);
+			ps.setInt(2, offset);
+			ps.setInt(3, limit);
+
 			ResultSet rs = ps.executeQuery();
-
 			while (rs.next()) {
 				Order o = new Order();
 				o.setId(rs.getInt("id"));
@@ -248,7 +255,6 @@ public class OrderDAOImpl implements OrderDAO {
 				o.setPhone(rs.getString("phone"));
 				o.setAddress(rs.getString("address"));
 				o.setWard(rs.getString("ward"));
-
 				list.add(o);
 			}
 		} catch (Exception e) {
@@ -457,6 +463,61 @@ public class OrderDAOImpl implements OrderDAO {
 		}
 
 		return map;
+	}
+
+	@Override
+	public int countByUserId(int userId) {
+		String sql = "SELECT COUNT(*) FROM orders WHERE user_id = ?";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, userId);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public List<Order> findAllPaginated(int offset, int limit) {
+		List<Order> list = new ArrayList<>();
+
+		String sql = """
+				    SELECT *
+				    FROM orders
+				    ORDER BY created_at DESC
+				    OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+				""";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setInt(1, offset);
+			ps.setInt(2, limit);
+
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Order o = new Order();
+				o.setId(rs.getInt("id"));
+				o.setUserId(rs.getInt("user_id"));
+				o.setTotalAmount(rs.getDouble("total_amount"));
+				o.setStatus(rs.getString("status"));
+				o.setCreatedAt(rs.getTimestamp("created_at"));
+				o.setReceiverName(rs.getString("receiver_name"));
+				o.setPhone(rs.getString("phone"));
+				o.setAddress(rs.getString("address"));
+				o.setWard(rs.getString("ward"));
+				list.add(o);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

@@ -27,9 +27,14 @@ public class OrderDetailController extends HttpServlet {
 			return;
 		}
 
+		String pageParam = req.getParameter("page");
+		if (pageParam == null || pageParam.isBlank()) {
+			pageParam = "1";
+		}
+
 		String idParam = req.getParameter("id");
 		if (idParam == null) {
-			resp.sendRedirect(req.getContextPath() + "/order-tracking");
+			resp.sendRedirect(req.getContextPath() + "/order-tracking?page=" + pageParam);
 			return;
 		}
 
@@ -37,18 +42,20 @@ public class OrderDetailController extends HttpServlet {
 		try {
 			orderId = Integer.parseInt(idParam);
 		} catch (NumberFormatException e) {
-			resp.sendRedirect(req.getContextPath() + "/order-tracking");
+			resp.sendRedirect(req.getContextPath() + "/order-tracking?page=" + pageParam);
 			return;
 		}
 
 		Order order = orderService.getOrderDetail(orderId, user.getId());
 
 		if (order == null) {
-			resp.sendRedirect(req.getContextPath() + "/order-tracking");
+			resp.sendRedirect(req.getContextPath() + "/order-tracking?page=" + pageParam);
 			return;
 		}
 
 		req.setAttribute("order", order);
+		req.setAttribute("currentPage", pageParam); // optional, cho JSP dùng
 		req.getRequestDispatcher("/views/web/order-detail.jsp").forward(req, resp);
 	}
+
 }

@@ -40,4 +40,8 @@ public interface OrderDAO {
 
 	Map<String, Double> getRevenueByCategory(int month, int year);
 
+	List<Order> findByUserIdPaginated(int userId, int offset, int limit);
+
+	int countByUserId(int userId);
+
 }

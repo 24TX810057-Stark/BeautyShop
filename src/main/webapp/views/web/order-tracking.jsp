@@ -29,8 +29,9 @@
 
 				<li
 					class="${fn:contains(pageContext.request.requestURI, '/order-tracking') ? 'active' : ''}">
-					<a href="${pageContext.request.contextPath}/order-tracking"> <i
-						class="bi bi-bag"></i> <span>Đơn hàng của tôi</span>
+					<a
+					href="${pageContext.request.contextPath}/order-tracking?page=${currentPage}">
+						<i class="bi bi-bag"></i> <span>Đơn hàng của tôi</span>
 				</a>
 				</li>
 
@@ -48,10 +49,10 @@
 			<c:if test="${empty orders}">
 				<p class="text-muted">Bạn chưa có đơn hàng nào.</p>
 			</c:if>
-			
+
 			<c:forEach var="o" items="${orders}">
 				<a class="text-decoration-none text-dark"
-					href="${pageContext.request.contextPath}/order-detail?id=${o.id}">
+					href="${pageContext.request.contextPath}/order-detail?id=${o.id}&page=${currentPage}">
 					<div class="border rounded p-3 mb-3">
 						<div>
 							<b>Mã đơn:</b> #${o.id}
@@ -74,37 +75,33 @@
 					</div>
 				</a>
 			</c:forEach>
-			
+
 			<!-- Phân trang -->
 			<nav class="mt-3">
-			    <ul class="pagination justify-content-center">
-			
-			        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-			            <a class="page-link"
-			               href="${pageContext.request.contextPath}/order-tracking?page=${currentPage - 1}">
-			                &laquo;
-			            </a>
-			        </li>
-			
-			        <c:forEach begin="1" end="${totalPages}" var="i">
-			            <li class="page-item ${i == currentPage ? 'active' : ''}">
-			                <a class="page-link"
-			                   href="${pageContext.request.contextPath}/order-tracking?page=${i}">
-			                    ${i}
-			                </a>
-			            </li>
-			        </c:forEach>
-			
-			        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-			            <a class="page-link"
-			               href="${pageContext.request.contextPath}/order-tracking?page=${currentPage + 1}">
-			                &raquo;
-			            </a>
-			        </li>
-			
-			    </ul>
+				<ul class="pagination justify-content-center">
+
+					<li class="page-item ${currentPage == 1 ? 'disabled' : ''}"><a
+						class="page-link"
+						href="${pageContext.request.contextPath}/order-tracking?page=${currentPage - 1}">
+							&laquo; </a></li>
+
+					<c:forEach begin="1" end="${totalPages}" var="i">
+						<li class="page-item ${i == currentPage ? 'active' : ''}"><a
+							class="page-link"
+							href="${pageContext.request.contextPath}/order-tracking?page=${i}">
+								${i} </a></li>
+					</c:forEach>
+
+					<li
+						class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+						<a class="page-link"
+						href="${pageContext.request.contextPath}/order-tracking?page=${currentPage + 1}">
+							&raquo; </a>
+					</li>
+
+				</ul>
 			</nav>
-			
+
 
 		</div>
 

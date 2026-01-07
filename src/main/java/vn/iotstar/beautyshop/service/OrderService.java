@@ -42,4 +42,8 @@ public interface OrderService {
 
 	Map<String, Double> getRevenueByCategory(int month, int year);
 
+	List<Order> findByUserIdPaginated(int id, int offset, int size);
+
+	int countByUserId(int id);
+
 }

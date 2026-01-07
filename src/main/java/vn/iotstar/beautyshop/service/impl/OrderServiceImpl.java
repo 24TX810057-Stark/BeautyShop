@@ -93,4 +93,14 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.getRevenueByCategory(month, year);
 	}
 
+	@Override
+	public List<Order> findByUserIdPaginated(int userId, int offset, int size) {
+		return orderDAO.findByUserIdPaginated(userId, offset, size);
+	}
+
+	@Override
+	public int countByUserId(int userId) {
+		return orderDAO.countByUserId(userId);
+	}
+
 }
