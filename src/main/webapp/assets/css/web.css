@@ -1369,6 +1369,10 @@
 .line.active {
 	background: #26aa99;
 }
+.step.current {
+	color: #26aa99;
+}
+
 
 
 /* ========Tin tức============================= */
@@ -1748,4 +1752,59 @@
     color: #ccc;
 }
 
+/* Skincare4menBeauty */
+.services-section {
+	padding: 60px 0;
+	background: #fff;
+}
 
+.section-title {
+	text-align: center;
+	font-size: 28px;
+	font-weight: 700;
+	color: #222;
+}
+
+.section-desc {
+	text-align: center;
+	color: #666;
+	margin-bottom: 40px;
+}
+
+.services-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	gap: 24px;
+}
+
+.service-card {
+	background: #fff;
+	border: 1px solid #eee;
+	border-radius: 16px;
+	padding: 28px 20px;
+	text-align: center;
+	transition: 0.25s;
+}
+
+.service-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.service-card .icon {
+	font-size: 40px;
+	margin-bottom: 12px;
+}
+
+.service-card h3 {
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 8px;
+	color: #222;
+}
+
+.service-card p {
+	font-size: 14px;
+	color: #666;
+	line-height: 1.5;
+}

@@ -34,7 +34,9 @@
 		class="line ${s == 'DELIVERING' || s == 'COMPLETED' ? 'active' : ''}"></div>
 
 	<!-- Đang giao -->
-	<div class="step ${s == 'DELIVERING' ? 'active current' : ''}">
+	<div
+		class="step ${s == 'DELIVERING' || s == 'COMPLETED' ? 'active' : ''}">
+
 		<div class="icon">🚚</div>
 		<div class="label">Đang giao hàng</div>
 	</div>

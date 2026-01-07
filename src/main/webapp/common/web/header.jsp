@@ -49,13 +49,14 @@
 	<div
 		class="container d-flex align-items-center justify-content-between">
 
-		<!-- Nút menu mobile (CHỈ DI CHUYỂN VỊ TRÍ) -->
-		<button class="btn d-md-none" type="button" data-bs-toggle="collapse"
-			data-bs-target="#mobileMenu">
+		<!-- Nút menu mobile -->
+		<button class="btn d-lg-none" type="button" data-bs-toggle="collapse"
+			data-bs-target="#mobileMenu" aria-controls="mobileMenu"
+			aria-expanded="false" aria-label="Toggle navigation">
 			<i class="bi bi-list fs-3"></i>
 		</button>
 
-		<!-- Menu desktop (CHỈ DI CHUYỂN VỊ TRÍ) -->
+		<!-- Menu desktop -->
 		<ul class="menu-list d-none d-lg-flex justify-content-lg-center">
 			<li><a
 				href="${pageContext.request.contextPath}/product?type=new">SẢN
@@ -67,10 +68,12 @@
 					TỨC</a></li>
 			<li><a href="${pageContext.request.contextPath}/order-tracking">TRA
 					CỨU ĐƠN HÀNG</a></li>
+			<li><a href="${pageContext.request.contextPath}/services">SKINCARE4MEN
+					BEAUTY</a></li>
 		</ul>
 	</div>
 
-	<!-- Menu mobile (CHỈ DI CHUYỂN VỊ TRÍ) -->
+	<!-- Menu mobile -->
 	<div class="collapse d-lg-none" id="mobileMenu">
 		<ul class="menu-list mobile">
 			<li><a
@@ -83,6 +86,9 @@
 					TỨC</a></li>
 			<li><a href="${pageContext.request.contextPath}/order-tracking">TRA
 					CỨU ĐƠN</a></li>
+			<li><a href="${pageContext.request.contextPath}/services">SKINCARE4MEN
+					BEAUTY</a></li>
 		</ul>
 	</div>
 </nav>
+
