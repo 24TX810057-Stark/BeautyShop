@@ -53,7 +53,12 @@
 
 <!-- ===== MÔ TẢ TRẠNG THÁI ===== -->
 <p class="order-status-desc">${order.statusText}</p>
-
+<!-- ===== HỦY ĐƠN ===== -->
+<c:if test="${order.status != 'DELIVERING' && order.status != 'COMPLETED'}">
+	<p class="order-cancel-note">
+		Hủy đơn hàng, vui lòng liên hệ <b>Hotline 1900 1234</b>
+	</p>
+</c:if>
 <!-- ======== CHI TIẾT ĐƠN HÀNG (2 CỘT) =============== -->
 <div class="order-wrapper">
 
