@@ -8,9 +8,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import vn.iotstar.beautyshop.model.User;
-import vn.iotstar.beautyshop.security.PasswordUtil;
 import vn.iotstar.beautyshop.service.UserService;
 import vn.iotstar.beautyshop.service.impl.UserServiceImpl;
+import vn.iotstar.beautyshop.util.PasswordUtil;
 
 @WebServlet(urlPatterns = { "/register" })
 public class RegisterController extends HttpServlet {

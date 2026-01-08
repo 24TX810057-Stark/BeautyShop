@@ -55,8 +55,15 @@ public class LoginController extends HttpServlet {
 			req.getRequestDispatcher("/views/login.jsp").forward(req, resp);
 			return;
 		}
+
 		HttpSession session = req.getSession();
 		session.setAttribute("user", user);
+
+		// ÉP ĐỔI MẬT KHẨU NẾU LÀ MẬT KHẨU TẠM
+		if (user.isTempPassword()) {
+			resp.sendRedirect(req.getContextPath() + "/change-password");
+			return;
+		}
 
 		// quay lại trang đang làm dở
 		String redirect = (String) session.getAttribute("redirectAfterLogin");
@@ -72,7 +79,6 @@ public class LoginController extends HttpServlet {
 		} else {
 			resp.sendRedirect(req.getContextPath() + "/home");
 		}
-
 	}
 
 }

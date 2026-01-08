@@ -15,7 +15,7 @@
 				<li class="mt-3"><strong>📞 Điện thoại</strong><br> 0769
 					661 668</li>
 				<li class="mt-3"><strong>📧 Email</strong><br>
-					hoptac@lamthaocosmetic.vn</li>
+					hoptac@skincare4men.vn</li>
 			</ul>
 
 			<h4 class="mt-4">Gửi thắc mắc cho chúng tôi</h4>

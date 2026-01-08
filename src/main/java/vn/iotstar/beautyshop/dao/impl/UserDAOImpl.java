@@ -246,6 +246,25 @@ public class UserDAOImpl implements UserDAO {
 		u.setFullName(rs.getString("full_name"));
 		u.setRole(rs.getString("role"));
 		u.setStatus(rs.getInt("status"));
+
+		u.setTempPassword(rs.getBoolean("is_temp_password"));
+
 		return u;
 	}
+
+	public void updatePasswordAndTempFlag(int userId, String password, boolean isTemp) {
+		String sql = "UPDATE users SET password = ?, is_temp_password = ? WHERE id = ?";
+
+		try (Connection conn = DBConnect.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			ps.setString(1, password);
+			ps.setBoolean(2, isTemp);
+			ps.setInt(3, userId);
+			ps.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

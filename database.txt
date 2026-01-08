@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [BeautyShop]    Script Date: 31/12/2025 16:25:22 ******/
+/****** Object:  Database [BeautyShop]    Script Date: 08/01/2026 13:47:44 ******/
 CREATE DATABASE [BeautyShop]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,28 @@ ALTER DATABASE [BeautyShop] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANU
 GO
 USE [BeautyShop]
 GO
-/****** Object:  Table [dbo].[categories]    Script Date: 31/12/2025 16:25:22 ******/
+/****** Object:  Table [dbo].[banners]    Script Date: 08/01/2026 13:47:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[banners](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[title] [nvarchar](255) NULL,
+	[description] [nvarchar](500) NULL,
+	[image] [nvarchar](255) NOT NULL,
+	[link] [nvarchar](500) NULL,
+	[display_order] [int] NOT NULL,
+	[is_active] [bit] NOT NULL,
+	[created_at] [datetime] NOT NULL,
+	[updated_at] [datetime] NULL,
+ CONSTRAINT [PK_banners] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[categories]    Script Date: 08/01/2026 13:47:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -97,7 +118,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[order_items]    Script Date: 31/12/2025 16:25:22 ******/
+/****** Object:  Table [dbo].[order_items]    Script Date: 08/01/2026 13:47:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -114,7 +135,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[orders]    Script Date: 31/12/2025 16:25:22 ******/
+/****** Object:  Table [dbo].[orders]    Script Date: 08/01/2026 13:47:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -135,7 +156,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[products]    Script Date: 31/12/2025 16:25:22 ******/
+/****** Object:  Table [dbo].[products]    Script Date: 08/01/2026 13:47:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -155,7 +176,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[users]    Script Date: 31/12/2025 16:25:22 ******/
+/****** Object:  Table [dbo].[users]    Script Date: 08/01/2026 13:47:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -168,38 +189,12 @@ CREATE TABLE [dbo].[users](
 	[full_name] [nvarchar](100) NOT NULL,
 	[role] [varchar](20) NOT NULL,
 	[status] [int] NOT NULL,
+	[is_temp_password] [bit] NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[banners]    Script Date: 02/01/2026 20:12:00 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[banners](
-	[id] [int] IDENTITY(1,1) NOT NULL,
-	[title] [nvarchar](255) NULL,
-	[description] [nvarchar](500) NULL,
-	[image] [nvarchar](255) NOT NULL,
-	[link] [nvarchar](500) NULL,
-	[display_order] [int] NOT NULL,
-	[is_active] [bit] NOT NULL,
-	[created_at] [datetime] NOT NULL,
-	[updated_at] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[id] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-ALTER TABLE [dbo].[banners] ADD DEFAULT (getdate()) FOR [created_at]
-GO
-ALTER TABLE [dbo].[banners] ADD DEFAULT ((1)) FOR [is_active]
-GO
-ALTER TABLE [dbo].[banners] ADD DEFAULT ((0)) FOR [display_order]
 GO
 SET IDENTITY_INSERT [dbo].[categories] ON 
 
@@ -248,6 +243,13 @@ INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity])
 INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (33, 26, 41, 30000, 1)
 INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (34, 26, 32, 445000, 1)
 INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (35, 27, 23, 230000, 3)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (36, 28, 43, 525000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (37, 29, 44, 445000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (38, 30, 44, 445000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (39, 31, 45, 345000, 15)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (40, 31, 32, 445000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (41, 31, 43, 525000, 1)
+INSERT [dbo].[order_items] ([id], [order_id], [product_id], [price], [quantity]) VALUES (42, 31, 41, 30000, 1)
 SET IDENTITY_INSERT [dbo].[order_items] OFF
 GO
 SET IDENTITY_INSERT [dbo].[orders] ON 
@@ -279,6 +281,10 @@ INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], 
 INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (25, 14, 762000, N'COMPLETED', CAST(N'2025-12-31T15:21:49.457' AS DateTime), N'Nguyễn Bảo', N'0390 993 222', N'H.No. 27, Block A, Lajpat Nagar II', N'Campuchia')
 INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (26, 14, 475000, N'COMPLETED', CAST(N'2025-12-31T15:22:26.843' AS DateTime), N'Nguyễn Bảo', N'0390 993 222', N'H.No. 27, Block A, Lajpat Nagar II', N'Campuchia')
 INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (27, 14, 690000, N'COMPLETED', CAST(N'2025-12-31T15:23:36.180' AS DateTime), N'Nguyễn Bảo', N'0390 993 222', N'H.No. 27, Block A, Lajpat Nagar II', N'Campuchia')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (28, 13, 525000, N'PENDING', CAST(N'2026-01-07T14:06:18.643' AS DateTime), N'Tạ Đặng Anh Dương', N'038811999', N'CamPuChia', N'CamPuChia')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (29, 2, 445000, N'COMPLETED', CAST(N'2026-01-07T15:51:48.480' AS DateTime), N'Người dùng test', N'0900000002', N'CamPuChia', N'CamPuChia')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (30, 2, 445000, N'DELIVERING', CAST(N'2026-01-07T16:03:22.577' AS DateTime), N'Người dùng test', N'0900000002', N'sads', N'đa')
+INSERT [dbo].[orders] ([id], [user_id], [total_amount], [status], [created_at], [receiver_name], [phone], [address], [ward]) VALUES (31, 15, 6175000, N'DELIVERING', CAST(N'2026-01-08T13:25:54.253' AS DateTime), N'Nguyễn Quốc Bảo', N'032221183232', N'CamPuChia', N'CamPuChia')
 SET IDENTITY_INSERT [dbo].[orders] OFF
 GO
 SET IDENTITY_INSERT [dbo].[products] ON 
@@ -315,19 +321,20 @@ SET IDENTITY_INSERT [dbo].[products] OFF
 GO
 SET IDENTITY_INSERT [dbo].[users] ON 
 
-INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (1, N'admin@gmail.com', N'0900000001', N'123', N'Quản trị viên', N'ADMIN', 1)
-INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (2, N'user@gmail.com', N'0900000002', N'123', N'Người dùng test', N'USER', 1)
-INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (9, N'test05@gmail.com', N'0362389623', N'123', N'Nguyễn Quốc Bảo', N'USER', 1)
-INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (10, N'24tx810057@student.hcmute.edu.vn', N'12', N'ueq', N'1212', N'USER', 1)
-INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (11, N'anhungxadieu@gmail.com', N'03222118883', N'123', N'Nguyễn Ngọc Thiện', N'USER', 1)
-INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (12, N'phatkhang@gmail.com', N'03131333', N'123', N'Nguyễn Phát Khang', N'USER', 1)
-INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (13, N'duong@gmail.com', N'038811999', N'123', N'Tạ Đặng Anh Dương', N'USER', 1)
-INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status]) VALUES (14, N'bao@gmail.com', N'0390 993 222', N'123', N'Nguyễn Bảo', N'USER', 1)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (1, N'admin@gmail.com', N'0900000001', N'$2a$12$DSe49u64IjNw7MrXKENtiu9u3gxJ5jv6NrwbIMnkD8ZTgZ5rtyprO', N'Quản trị viên', N'ADMIN', 1, NULL)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (2, N'user@gmail.com', N'0900000002', N'$2a$12$DSe49u64IjNw7MrXKENtiu9u3gxJ5jv6NrwbIMnkD8ZTgZ5rtyprO', N'Người dùng test', N'USER', 1, NULL)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (9, N'test05@gmail.com', N'0362389623', N'$2a$12$DSe49u64IjNw7MrXKENtiu9u3gxJ5jv6NrwbIMnkD8ZTgZ5rtyprO', N'Nguyễn Quốc Bảo', N'USER', 1, NULL)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (10, N'24tx810057@student.hcmute.edu.vn', N'12', N'$2a$12$DSe49u64IjNw7MrXKENtiu9u3gxJ5jv6NrwbIMnkD8ZTgZ5rtyprO', N'1212', N'USER', 1, NULL)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (11, N'anhungxadieu@gmail.com', N'03222118883', N'$2a$12$DSe49u64IjNw7MrXKENtiu9u3gxJ5jv6NrwbIMnkD8ZTgZ5rtyprO', N'Nguyễn Ngọc Thiện', N'USER', 1, NULL)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (12, N'phatkhang@gmail.com', N'03131333', N'$2a$12$DSe49u64IjNw7MrXKENtiu9u3gxJ5jv6NrwbIMnkD8ZTgZ5rtyprO', N'Nguyễn Phát Khang', N'USER', 1, NULL)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (13, N'duong@gmail.com', N'038811999', N'$2a$12$DSe49u64IjNw7MrXKENtiu9u3gxJ5jv6NrwbIMnkD8ZTgZ5rtyprO', N'Tạ Đặng Anh Dương', N'USER', 1, NULL)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (14, N'bao@gmail.com', N'0390 993 222', N'$2a$12$DSe49u64IjNw7MrXKENtiu9u3gxJ5jv6NrwbIMnkD8ZTgZ5rtyprO', N'Nguyễn Bảo', N'USER', 1, NULL)
+INSERT [dbo].[users] ([id], [email], [phone], [password], [full_name], [role], [status], [is_temp_password]) VALUES (15, N'bao26sv@gmail.com', N'032221183232', N'$2a$10$0HusYEStHwtJ55trOP77hOZ45SH6PuQGcYsIkaSxJsxoec9XOwam.', N'Nguyễn Quốc Bảo TEST', N'USER', 1, 0)
 SET IDENTITY_INSERT [dbo].[users] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__users__AB6E6164BC1B132F]    Script Date: 31/12/2025 16:25:22 ******/
+/****** Object:  Index [UQ__users__AB6E6164BC1B132F]    Script Date: 08/01/2026 13:47:45 ******/
 ALTER TABLE [dbo].[users] ADD UNIQUE NONCLUSTERED 
 (
 	[email] ASC
@@ -335,11 +342,17 @@ ALTER TABLE [dbo].[users] ADD UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ__users__B43B145F0F0813D8]    Script Date: 31/12/2025 16:25:22 ******/
+/****** Object:  Index [UQ__users__B43B145F0F0813D8]    Script Date: 08/01/2026 13:47:45 ******/
 ALTER TABLE [dbo].[users] ADD UNIQUE NONCLUSTERED 
 (
 	[phone] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[banners] ADD  CONSTRAINT [DF_banners_display_order]  DEFAULT ((0)) FOR [display_order]
+GO
+ALTER TABLE [dbo].[banners] ADD  CONSTRAINT [DF_banners_is_active]  DEFAULT ((1)) FOR [is_active]
+GO
+ALTER TABLE [dbo].[banners] ADD  CONSTRAINT [DF_banners_created_at]  DEFAULT (getdate()) FOR [created_at]
 GO
 ALTER TABLE [dbo].[orders] ADD  DEFAULT (getdate()) FOR [created_at]
 GO
@@ -348,6 +361,8 @@ GO
 ALTER TABLE [dbo].[users] ADD  DEFAULT ('USER') FOR [role]
 GO
 ALTER TABLE [dbo].[users] ADD  DEFAULT ((1)) FOR [status]
+GO
+ALTER TABLE [dbo].[users] ADD  DEFAULT ((0)) FOR [is_temp_password]
 GO
 ALTER TABLE [dbo].[order_items]  WITH CHECK ADD  CONSTRAINT [FK_order_items_orders] FOREIGN KEY([order_id])
 REFERENCES [dbo].[orders] ([id])

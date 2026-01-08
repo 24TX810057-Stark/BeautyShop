@@ -1,10 +1,12 @@
 package vn.iotstar.beautyshop.service.impl;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import vn.iotstar.beautyshop.dao.UserDAO;
 import vn.iotstar.beautyshop.dao.impl.UserDAOImpl;
 import vn.iotstar.beautyshop.model.User;
-import vn.iotstar.beautyshop.security.PasswordUtil;
 import vn.iotstar.beautyshop.service.UserService;
+import vn.iotstar.beautyshop.util.PasswordUtil;
 
 public class UserServiceImpl implements UserService {
 
@@ -76,6 +78,25 @@ public class UserServiceImpl implements UserService {
 
 		// Trả về kết quả insert thực sự
 		return userDAO.insert(user);
+	}
+
+	@Override
+	public void updateTempPassword(int userId, String rawPassword) {
+		String hash = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
+		userDAO.updatePasswordAndTempFlag(userId, hash, true);
+	}
+
+	public void changePassword(int userId, String rawPassword) {
+		String hash = BCrypt.hashpw(rawPassword, BCrypt.gensalt());
+		userDAO.updatePasswordAndTempFlag(userId, hash, false);
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		if (email == null || email.isEmpty()) {
+			return null;
+		}
+		return userDAO.findByEmail(email);
 	}
 
 }

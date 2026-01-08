@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
 	private int id;
 	private String email;
 	private String phone;
@@ -15,4 +16,5 @@ public class User {
 	private String fullName;
 	private String role;
 	private int status;
+	private boolean isTempPassword;
 }

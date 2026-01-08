@@ -29,4 +29,6 @@ public interface UserDAO {
 
 	boolean existsByPhone(String phone);
 
+	void updatePasswordAndTempFlag(int userId, String hash, boolean b);
+
 }
